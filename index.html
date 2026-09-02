@@ -378,6 +378,415 @@
     .polaroid-card-caption { font-size: 0.8rem; }
   }
 
+  /* ---------- SECRET LOCKER: ICON + MODAL ---------- */
+  .secret-locker-wrap {
+    margin: 2.5rem auto 0;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Small lock icon button */
+  .lock-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem;
+    border-radius: 16px;
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), filter 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .lock-icon-btn svg {
+    width: 52px;
+    height: 52px;
+    filter: drop-shadow(0 4px 10px rgba(74,52,5,0.25));
+    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .lock-icon-btn:hover svg,
+  .lock-icon-btn:focus svg {
+    transform: scale(1.15) rotate(-5deg);
+  }
+  .lock-icon-btn:active svg {
+    transform: scale(0.92);
+  }
+  .lock-icon-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: #8a6a1f;
+    letter-spacing: 0.04em;
+  }
+
+  /* PIN Modal Overlay */
+  .pin-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(74, 52, 5, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+  }
+  .pin-modal-overlay.open {
+    display: flex;
+    animation: modalFadeIn 0.3s ease forwards;
+  }
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .pin-modal-card {
+    background: #FFFDF8;
+    border: 1.5px solid rgba(74, 52, 5, 0.14);
+    border-radius: 24px;
+    padding: 2rem 1.6rem 1.8rem;
+    max-width: 320px;
+    width: 92%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(74, 52, 5, 0.22);
+    animation: modalSlideUp 0.4s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  @keyframes modalSlideUp {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to   { transform: translateY(0) scale(1);       opacity: 1; }
+  }
+  .pin-modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.85rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #8a6a1f;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 50%;
+    line-height: 1;
+    transition: background 0.2s, color 0.2s;
+  }
+  .pin-modal-close:hover { background: rgba(74,52,5,0.1); color: var(--cocoa); }
+
+  .locker-card {
+    /* kept for any fallback references */
+  }
+  .locker-icon-badge {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 0.6rem;
+    background: linear-gradient(135deg, var(--sun), var(--amber));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(245, 166, 35, 0.35);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .locker-card:hover .locker-icon-badge {
+    transform: scale(1.08) rotate(-5deg);
+  }
+  .locker-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--cocoa);
+    margin-bottom: 0.2rem;
+  }
+  .locker-subtitle {
+    font-size: 0.78rem;
+    color: #8a6a1f;
+    margin-bottom: 1rem;
+  }
+  .pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1.1rem;
+  }
+  .pin-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--coral);
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+  .pin-dot.filled {
+    background: var(--coral);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(255, 122, 69, 0.4);
+  }
+  .pin-dot.error {
+    border-color: #e53935;
+    background: #e53935;
+  }
+  .locker-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 210px;
+    margin: 0 auto;
+  }
+  .key-btn {
+    aspect-ratio: 1;
+    border: 1px solid rgba(74, 52, 5, 0.12);
+    background: #FFF8E7;
+    border-radius: 12px;
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--cocoa);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(74, 52, 5, 0.05);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .key-btn:hover {
+    background: #FFE8A3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(74, 52, 5, 0.12);
+  }
+  .key-btn:active {
+    transform: translateY(1px) scale(0.96);
+    background: #FFD968;
+  }
+  .key-btn.action {
+    font-size: 0.85rem;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    color: var(--coral);
+  }
+  .shake {
+    animation: lockerShake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  @keyframes lockerShake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(3px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+  .locker-secret {
+    display: none;
+    animation: secretPop 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  @keyframes secretPop {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .secret-badge {
+    display: inline-block;
+    background: #FFEAA7;
+    color: var(--cocoa);
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .secret-msg {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: #4A3405;
+    background: #FFF3D0;
+    padding: 1rem;
+    border-radius: 14px;
+    border: 1px dashed rgba(74, 52, 5, 0.2);
+    margin-bottom: 0.8rem;
+  }
+  .relock-btn {
+    background: transparent;
+    border: 1px solid rgba(74, 52, 5, 0.2);
+    color: var(--cocoa);
+    font-size: 0.75rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .relock-btn:hover {
+    background: rgba(74, 52, 5, 0.08);
+  }
+
+  /* ---------- SECRET FULL-PAGE OVERLAY ---------- */
+  #secretPage {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: linear-gradient(180deg, #FFE28A 0%, var(--sun) 30%, #FFD968 65%, var(--cream) 100%);
+    overflow-y: auto;
+    display: none;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.7s cubic-bezier(.65,0,.35,1), opacity 0.7s ease;
+    opacity: 0;
+  }
+  #secretPage.open {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+  }
+  #secretPage.closing {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .sp-close-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 210;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(74, 52, 5, 0.15);
+    backdrop-filter: blur(6px);
+    color: var(--cocoa);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .sp-close-btn.show { display: flex; }
+  .sp-close-btn:hover { background: rgba(74, 52, 5, 0.28); transform: scale(1.1); }
+
+  /* Secret page hero wish */
+  .sp-hero {
+    padding: 5rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+  }
+  .sp-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #6b4d10;
+    margin-bottom: 0.7rem;
+  }
+  .sp-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: var(--cocoa);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 3px 0 rgba(255,255,255,0.3);
+  }
+  .sp-wish-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #5c4109;
+    max-width: 44ch;
+    margin: 0 auto 1.5rem;
+  }
+  .sp-ribbon-row {
+    font-size: 1.8rem;
+    letter-spacing: 0.5rem;
+    margin-bottom: 1rem;
+    animation: bob 2.5s ease-in-out infinite;
+  }
+  .sp-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--coral), var(--amber));
+    border-radius: 4px;
+    margin: 0 auto 3rem;
+  }
+
+  /* Secret gallery section */
+  .sp-gallery-wrap {
+    background: rgba(255,255,255,0.25);
+    padding: 0 0 4rem;
+    overflow: hidden;
+  }
+  .sp-gallery-label {
+    text-align: center;
+    padding: 0 1rem 0.5rem;
+  }
+  .sp-gallery-label .section-label { margin-bottom: 0.4rem; }
+  .sp-gallery-label .section-title { margin-bottom: 1.5rem; }
+
+  .sp-marquee-section {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1rem;
+    position: relative;
+    padding: 10px 0;
+  }
+  .sp-marquee-row {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+  }
+  .sp-scroll-r2l { animation: scrollR2L 28s linear infinite; }
+  .sp-scroll-r2l:hover { animation-play-state: paused; }
+  .sp-scroll-l2r { animation: scrollL2R 28s linear infinite; }
+  .sp-scroll-l2r:hover { animation-play-state: paused; }
+
+  .sp-polaroid {
+    flex: 0 0 190px;
+    background: #fff;
+    padding: 0.75rem 0.75rem 1.3rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 22px rgba(74,52,5,0.14);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .sp-polaroid:hover {
+    transform: scale(1.08) translateY(-6px) rotate(0deg) !important;
+    box-shadow: 0 16px 32px rgba(74,52,5,0.22);
+  }
+  .sp-polaroid-frame {
+    aspect-ratio: 1/1;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+  }
+  .sp-polaroid-caption {
+    margin-top: 0.7rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--cocoa);
+  }
+
+  .sp-footer-note {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #6b4d10;
+    padding: 2rem 1rem 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .sp-polaroid { flex: 0 0 145px; padding: 0.55rem 0.55rem 1rem; }
+    .sp-polaroid-caption { font-size: 0.8rem; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
@@ -623,6 +1032,51 @@
       </div>
 
       <p class="gallery-hint">(swap these frames for your own photos of the two of you — they'll mean even more)</p>
+
+      <!-- SMALL LOCK ICON (click to open PIN modal) -->
+      <div class="secret-locker-wrap" style="text-align:center; margin:2.5rem auto 0;">
+        <button class="lock-icon-btn" id="lockIconBtn" title="Secret Locker 🔒">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+            <rect x="12" y="30" width="40" height="26" rx="6" fill="#4A3405" fill-opacity="0.9"/>
+            <path d="M20 30V22a12 12 0 0 1 24 0v8" stroke="#4A3405" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <circle cx="32" cy="43" r="4" fill="#FFC93C"/>
+            <rect x="30.5" y="43" width="3" height="6" rx="1.5" fill="#FFC93C"/>
+          </svg>
+          <span class="lock-icon-label">Secret</span>
+        </button>
+      </div>
+
+      <!-- PIN ENTRY MODAL OVERLAY -->
+      <div id="pinModal" class="pin-modal-overlay">
+        <div class="pin-modal-card" id="pinModalCard">
+          <button class="pin-modal-close" id="pinModalClose">✕</button>
+          <div class="locker-icon-badge" id="lockerBadge" style="margin:0 auto 0.8rem;">🔒</div>
+          <div class="locker-title">Secret Locker 🎀</div>
+          <p class="locker-subtitle">Enter 4-digit passcode to unlock</p>
+
+          <div class="pin-dots" id="pinDots">
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+          </div>
+
+          <div class="locker-keypad" id="secretLocker">
+            <button class="key-btn" data-key="1">1</button>
+            <button class="key-btn" data-key="2">2</button>
+            <button class="key-btn" data-key="3">3</button>
+            <button class="key-btn" data-key="4">4</button>
+            <button class="key-btn" data-key="5">5</button>
+            <button class="key-btn" data-key="6">6</button>
+            <button class="key-btn" data-key="7">7</button>
+            <button class="key-btn" data-key="8">8</button>
+            <button class="key-btn" data-key="9">9</button>
+            <button class="key-btn action" data-key="clear">CLR</button>
+            <button class="key-btn" data-key="0">0</button>
+            <button class="key-btn action" data-key="back">⌫</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer>
@@ -764,11 +1218,318 @@
     heroObserver.observe(heroSec);
   }
 
+  // ---- SECRET LOCKER LOGIC (PASSWORD: 1619) ----
+  const LOCKER_CODE = "1619";
+  let currentPin = "";
+  const pinDots = document.querySelectorAll('#pinDots .pin-dot');
+  const secretLockerCard = document.getElementById('secretLocker'); // the keypad div
+  const pinModal = document.getElementById('pinModal');
+  const pinModalClose = document.getElementById('pinModalClose');
+  const lockIconBtn = document.getElementById('lockIconBtn');
+
+  function updatePinDots() {
+    pinDots.forEach((dot, idx) => {
+      dot.classList.toggle('filled', idx < currentPin.length);
+      dot.classList.remove('error');
+    });
+  }
+
+  function openPinModal() {
+    currentPin = "";
+    updatePinDots();
+    pinModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePinModal() {
+    pinModal.classList.remove('open');
+    document.body.style.overflow = '';
+    currentPin = "";
+    updatePinDots();
+  }
+
+  // Lock icon click → open PIN modal
+  if (lockIconBtn) {
+    lockIconBtn.addEventListener('click', openPinModal);
+  }
+
+  // Modal close button
+  if (pinModalClose) {
+    pinModalClose.addEventListener('click', closePinModal);
+  }
+
+  // Click backdrop to close
+  if (pinModal) {
+    pinModal.addEventListener('click', (e) => {
+      if (e.target === pinModal) closePinModal();
+    });
+  }
+
+  function handleKeyInput(key) {
+    if (!pinModal.classList.contains('open')) return;
+
+    if (key === 'clear') {
+      currentPin = "";
+      updatePinDots();
+      return;
+    }
+
+    if (key === 'back') {
+      if (currentPin.length > 0) {
+        currentPin = currentPin.slice(0, -1);
+        updatePinDots();
+      }
+      return;
+    }
+
+    if (/^[0-9]$/.test(key)) {
+      if (currentPin.length < 4) {
+        currentPin += key;
+        updatePinDots();
+
+        if (currentPin.length === 4) {
+          if (currentPin === LOCKER_CODE) {
+            // ✅ Correct PIN — navigate to /sandhiya
+            setTimeout(() => {
+              window.location.href = '/sandhiya';
+            }, 250);
+          } else {
+            // ❌ Wrong PIN — shake and reset
+            pinDots.forEach(dot => dot.classList.add('error'));
+            if (secretLockerCard) secretLockerCard.classList.add('shake');
+            setTimeout(() => {
+              if (secretLockerCard) secretLockerCard.classList.remove('shake');
+              currentPin = "";
+              updatePinDots();
+            }, 500);
+          }
+        }
+      }
+    }
+  }
+
+  document.querySelectorAll('.key-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleKeyInput(btn.getAttribute('data-key'));
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (pinModal && pinModal.classList.contains('open')) {
+      if (/^[0-9]$/.test(e.key)) handleKeyInput(e.key);
+      else if (e.key === 'Backspace') handleKeyInput('back');
+      else if (e.key === 'Escape') closePinModal();
+      else if (e.key === 'Delete') handleKeyInput('clear');
+    }
+  });
+
+  // ---- OPEN / CLOSE SECRET PAGE ----
+  const secretPage = document.getElementById('secretPage');
+  const spCloseBtn = document.getElementById('spCloseBtn');
+  const spWishText = document.getElementById('spWishText');
+
+  function openSecretPage() {
+    if (spWishText) {
+      spWishText.innerHTML =
+        `<strong>${chosen}</strong>, you found the secret — and honestly, that's so very <em>you</em>. 🥺✨<br><br>
+        This little corner of the page was made just for you, with all the love I could pack into a few lines.
+        You are rare. You are wonderful. And today, the whole universe is quietly cheering for you.<br><br>
+        Happy Birthday, my favourite person. 🎂🎀`;
+    }
+    secretPage.style.display = 'flex';
+    secretPage.scrollTop = 0;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        secretPage.classList.add('open');
+        spCloseBtn.classList.add('show');
+      });
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSecretPage() {
+    secretPage.classList.add('closing');
+    spCloseBtn.classList.remove('show');
+    setTimeout(() => {
+      secretPage.classList.remove('open', 'closing');
+      secretPage.style.display = 'none';
+      document.body.style.overflow = '';
+      currentPin = "";
+      updatePinDots();
+    }, 750);
+  }
+
+  if (spCloseBtn) spCloseBtn.addEventListener('click', closeSecretPage);
+
+  let touchStartY = 0;
+  if (secretPage) {
+    secretPage.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    secretPage.addEventListener('touchend', (e) => {
+      if (e.changedTouches[0].clientY - touchStartY > 80 && secretPage.scrollTop === 0) closeSecretPage();
+    }, { passive: true });
+  }
+
   // ---- reveal letters on scroll ----
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.2 });
   document.querySelectorAll('.letter').forEach(el => io.observe(el));
 </script>
+
+  <!-- CLOSE BUTTON (floats above secret page) -->
+  <button class="sp-close-btn" id="spCloseBtn" title="Close">✕</button>
+
+  <!-- SECRET PAGE: slides up when locker is unlocked -->
+  <div id="secretPage">
+
+    <!-- HERO WISH -->
+    <div class="sp-hero">
+      <div class="sp-eyebrow">🔓 just for you 🔓</div>
+      <div class="sp-ribbon-row">🎀 🌟 🎀</div>
+      <div class="sp-title">A Secret Birthday<br>Wish 💖</div>
+      <p class="sp-wish-text" id="spWishText">
+        Sandhiya, you found the secret — and honestly, that's so very <em>you</em>. 🥺✨
+        This little corner of the page was made just for you, with all the love I could pack into a few lines.
+        You are rare. You are wonderful. And today, the whole universe is quietly cheering for you.
+        Happy Birthday, my favourite person. 🎂🎀
+      </p>
+      <div class="sp-divider"></div>
+    </div>
+
+    <!-- SECRET PHOTO GALLERY -->
+    <div class="sp-gallery-wrap">
+      <div class="sp-gallery-label">
+        <div class="section-label">🎀 secret memories 🎀</div>
+        <div class="section-title">Our Little Gallery 📸</div>
+      </div>
+
+      <!-- Row 1 → Right to Left -->
+      <div class="sp-marquee-section">
+        <div class="sp-marquee-row sp-scroll-r2l">
+          <!-- Card 1 -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
+            <div class="sp-polaroid-caption">always blooming 🌸</div>
+          </div>
+          <!-- Card 2 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
+            <div class="sp-polaroid-caption">pure love 💖</div>
+          </div>
+          <!-- Card 3 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
+            <div class="sp-polaroid-caption">you shine ✨</div>
+          </div>
+          <!-- Card 4 -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
+            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
+          </div>
+          <!-- Card 5 -->
+          <div class="sp-polaroid" style="transform:rotate(-1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
+            <div class="sp-polaroid-caption">rainbow days 🌈</div>
+          </div>
+          <!-- Card 6 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
+            <div class="sp-polaroid-caption">birthday queen 👑</div>
+          </div>
+          <!-- Duplicates for infinite scroll -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
+            <div class="sp-polaroid-caption">always blooming 🌸</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
+            <div class="sp-polaroid-caption">pure love 💖</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
+            <div class="sp-polaroid-caption">you shine ✨</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
+            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
+            <div class="sp-polaroid-caption">rainbow days 🌈</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
+            <div class="sp-polaroid-caption">birthday queen 👑</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 → Left to Right -->
+      <div class="sp-marquee-section">
+        <div class="sp-marquee-row sp-scroll-l2r">
+          <!-- Card 1 -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
+            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
+          </div>
+          <!-- Card 2 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
+            <div class="sp-polaroid-caption">superstar 🌟</div>
+          </div>
+          <!-- Card 3 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
+            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
+          </div>
+          <!-- Card 4 -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
+            <div class="sp-polaroid-caption">balloons up 🎈</div>
+          </div>
+          <!-- Card 5 -->
+          <div class="sp-polaroid" style="transform:rotate(1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
+            <div class="sp-polaroid-caption">free spirit 🦋</div>
+          </div>
+          <!-- Card 6 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
+            <div class="sp-polaroid-caption">flourishing 🌿</div>
+          </div>
+          <!-- Duplicates -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
+            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
+            <div class="sp-polaroid-caption">superstar 🌟</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
+            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
+            <div class="sp-polaroid-caption">balloons up 🎈</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
+            <div class="sp-polaroid-caption">free spirit 🦋</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
+            <div class="sp-polaroid-caption">flourishing 🌿</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="sp-footer-note">🎀 This secret page was made with love, just for you 🎀</p>
+    </div>
+
+  </div><!-- end #secretPage -->
+
 </body>
 </html>

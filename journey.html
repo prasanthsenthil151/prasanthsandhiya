@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Caveat:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#05060f;
+    --bg-mid:#0c0f26;
+    --bg-glow:#181c3f;
+    --gold:#e8b74e;
+    --gold-soft:#f4d488;
+    --text:#f2ede2;
+    --text-dim:rgba(242,237,226,0.58);
+    --line:rgba(232,183,78,0.5);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0; padding:0;
+    width:100%;
+    background:
+      radial-gradient(ellipse 60% 30% at 85% 6%, rgba(232,183,78,0.08), transparent 60%),
+      radial-gradient(ellipse 50% 25% at 12% 96%, rgba(75,63,114,0.3), transparent 60%),
+      linear-gradient(190deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-glow) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:'Jost', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  #scene{
+    position:relative;
+    width:100%;
+    /* height set by JS based on number of stops */
+  }
+
+  /* ---------- stars ---------- */
+  .star{
+    position:absolute;
+    background:var(--text);
+    border-radius:50%;
+    opacity:0.6;
+    animation:twinkle linear infinite;
+    pointer-events:none;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:0.15; }
+    50%{ opacity:0.9; }
+  }
+
+  /* shooting star: fixed to viewport so it appears while scrolling */
+  .shooting-star{
+    position:fixed;
+    top:12%;
+    left:-5%;
+    width:2px;
+    height:2px;
+    z-index:3;
+    opacity:0;
+    pointer-events:none;
+  }
+  .shooting-star::before{
+    content:"";
+    position:absolute;
+    width:110px;
+    height:1px;
+    background:linear-gradient(90deg, rgba(244,212,136,0.9), transparent);
+    transform:rotate(18deg);
+  }
+  .shooting-star.fire{ animation:shoot 2.4s ease-in forwards; }
+  @keyframes shoot{
+    0%{ transform:translate(0,0); opacity:0; }
+    8%{ opacity:1; }
+    75%{ opacity:0.7; }
+    100%{ transform:translate(70vw, 30vh); opacity:0; }
+  }
+
+  /* ---------- scroll hint ---------- */
+  .scroll-hint{
+    position:fixed;
+    bottom:5%;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:'Caveat', cursive;
+    font-size:1.15rem;
+    color:var(--text-dim);
+    z-index:5;
+    transition:opacity 0.5s ease;
+    text-align:center;
+    pointer-events:none;
+  }
+  .scroll-hint span{ display:block; font-size:1.3rem; margin-top:2px; }
+
+  /* ---------- path ---------- */
+  #path-svg{
+    position:absolute;
+    top:0; left:0;
+    z-index:2;
+    pointer-events:none;
+    overflow:visible;
+  }
+  #travel-path{
+    fill:none;
+    stroke:var(--line);
+    stroke-linecap:round;
+    stroke-dasharray:14 12;
+    stroke-dashoffset:0;
+  }
+
+  /* ---------- waypoints ---------- */
+  .waypoint{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    z-index:6;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  .planet-btn{
+    border-radius:50%;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    position:relative;
+    display:block;
+    transition:transform 0.4s ease;
+    background-size:cover;
+  }
+  .planet-btn:hover{ transform:scale(1.08); }
+  .planet-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    box-shadow:inset -8px -10px 20px rgba(0,0,0,0.35), 0 0 26px rgba(232,183,78,0.18);
+  }
+  .ring::before{
+    content:"";
+    position:absolute;
+    top:50%; left:50%;
+    width:172%; height:38%;
+    border:2px solid rgba(244,212,136,0.55);
+    border-radius:50%;
+    transform:translate(-50%,-50%) rotate(-18deg);
+    pointer-events:none;
+  }
+
+  .caption{
+    margin-top:12px;
+    max-width:200px;
+  }
+  .caption .label{
+    font-family:'Caveat', cursive;
+    font-size:1.3rem;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .caption .intro-eyebrow{
+    display:block;
+    font-family:'Caveat', cursive;
+    font-size:1.4rem;
+    color:var(--gold-soft);
+    margin-bottom:4px;
+    transform:rotate(-2deg);
+  }
+  .caption .intro-heading{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(1.3rem, 3vw, 1.7rem);
+    line-height:1.2;
+    margin:0;
+    color:var(--text);
+    white-space:normal;
+  }
+
+  .moon-stop .planet-btn{
+    box-shadow:0 0 60px rgba(244,212,136,0.5), 0 0 130px rgba(244,212,136,0.22);
+    animation:pulseMoon 5s ease-in-out infinite;
+  }
+  @keyframes pulseMoon{
+    0%,100%{ box-shadow:0 0 50px rgba(244,212,136,0.42), 0 0 100px rgba(244,212,136,0.18); }
+    50%{ box-shadow:0 0 72px rgba(244,212,136,0.6), 0 0 150px rgba(244,212,136,0.3); }
+  }
+  .moon-stop .caption .label{
+    font-size:1.55rem;
+    color:var(--gold-soft);
+  }
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(5,6,15,0.86);
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    z-index:50;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.35s ease;
+    padding:24px;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .album{
+    max-width:640px;
+    width:100%;
+    max-height:86vh;
+    overflow-y:auto;
+    background:linear-gradient(160deg, #0f1230, #191d42);
+    border:1px solid rgba(232,183,78,0.25);
+    border-radius:6px;
+    padding:36px 32px 28px;
+    position:relative;
+    transform:translateY(14px) scale(0.98);
+    transition:transform 0.35s ease;
+    box-shadow:0 30px 80px rgba(0,0,0,0.55);
+  }
+  .overlay.open .album{ transform:translateY(0) scale(1); }
+
+  .album-close{
+    position:absolute;
+    top:14px; right:16px;
+    background:none; border:none;
+    color:var(--text-dim);
+    font-size:1.4rem;
+    cursor:pointer;
+    line-height:1;
+    padding:6px;
+  }
+  .album-close:hover{ color:var(--gold-soft); }
+
+  .album .stop-note{
+    font-family:'Caveat', cursive;
+    font-size:1.25rem;
+    color:var(--gold-soft);
+    transform:rotate(-1.5deg);
+    display:block;
+    margin-bottom:2px;
+  }
+  .album h2{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.9rem;
+    margin:0 0 6px;
+  }
+  .album .desc{
+    font-size:0.92rem;
+    color:var(--text-dim);
+    line-height:1.6;
+    max-width:46ch;
+    margin-bottom:22px;
+  }
+
+  .polaroid-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:18px;
+  }
+  .polaroid{
+    background:#f2ede2;
+    padding:10px 10px 16px;
+    border-radius:2px;
+    transform:rotate(var(--tilt));
+    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    transition:transform 0.25s ease;
+  }
+  .polaroid:hover{ transform:rotate(0deg) translateY(-3px); }
+  .polaroid .photo{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:1px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem;
+    color:rgba(20,18,10,0.35);
+    border:1px dashed rgba(20,18,10,0.2);
+  }
+  .polaroid .cap{
+    display:block;
+    margin-top:8px;
+    font-family:'Caveat', cursive;
+    font-size:1.05rem;
+    color:#3a3226;
+    text-align:center;
+  }
+  .polaroid .date{
+    display:block;
+    text-align:center;
+    font-family:'Jost', sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.04em;
+    color:#8a806c;
+    margin-top:1px;
+  }
+
+  /* ---------- closing greeting ---------- */
+  .closing{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:12vh 24px;
+    z-index:6;
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .closing.show{ opacity:1; transform:translateY(0); }
+  .closing .glyph{
+    font-size:1.6rem;
+    color:var(--gold-soft);
+    margin-bottom:14px;
+    text-shadow:0 0 18px rgba(244,212,136,0.5);
+  }
+  .closing .greeting-note{
+    font-family:'Caveat', cursive;
+    font-size:1.3rem;
+    color:var(--gold-soft);
+    display:block;
+    margin-bottom:6px;
+    transform:rotate(-2deg);
+  }
+  .closing h2{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.8rem, 4.2vw, 2.6rem);
+    max-width:34ch;
+    margin:0 0 10px;
+    line-height:1.25;
+  }
+  .closing p{
+    font-size:0.95rem;
+    color:var(--text-dim);
+    max-width:42ch;
+    line-height:1.7;
+    margin:0;
+  }
+
+  @media (max-width:640px){
+    .caption{ max-width:150px; }
+    .caption .label{ font-size:1.1rem; }
+    .album{ padding:28px 20px 22px; }
+    .scroll-hint{ font-size:1rem; }
+    .closing{ padding:10vh 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="scene">
+  <svg id="path-svg"><path id="travel-path" d=""/></svg>
+  <!-- stars + waypoints injected by JS -->
+  <div class="closing" id="closingCard">
+    <span class="glyph">✦ ⋆ ✦</span>
+    <span class="greeting-note">you made it this far</span>
+    <h2>Thank you for walking this little map with me.</h2>
+    <p>Here's to every stop still waiting to be marked on it.</p>
+  </div>
+</div>
+
+<div class="shooting-star" id="shootingStar"></div>
+
+<div class="scroll-hint" id="scrollHint">follow the path down<span>↓</span></div>
+
+<div class="overlay" id="overlay">
+  <div class="album" id="albumContent"></div>
+</div>
+
+<script>
+/* =========================================================
+   CUSTOMISE YOUR JOURNEY HERE
+   - position: {x, y} in percent of the whole scrollable scene
+     (x: 0-100 across the width, y: 0-100 down the full length)
+   - size: diameter of the planet marker in pixels
+   - bg: any CSS background (gradient, image, texture) for the planet
+   - ring: true to add a Saturn-like ring around the planet
+   - to add a real photo, replace "img": null with a path or URL,
+     e.g. "img": "images/us-01.jpg", and it shows automatically
+========================================================= */
+const journeyData = [
+  {
+    id: "start",
+    position: { x: 18, y: 5 },
+    size: 62,
+    bg: "radial-gradient(circle at 34% 28%, #fefaf0, #cfd6e6 45%, #8f97b3 100%)",
+    label: "the beginning",
+    isStart: true,
+    introEyebrow: "a small map of us",
+    introHeading: "Every star along the way led here.",
+    title: "Where it started",
+    note: "chapter one",
+    desc: "Every map needs a first mark. This is ours — before the road knew where it was going.",
+    photos: [
+      { img: null, cap: "day one", date: "" },
+      { img: null, cap: "so it begins", date: "" }
+    ]
+  },
+  {
+    id: "comet",
+    position: { x: 74, y: 24 },
+    size: 74,
+    bg: "radial-gradient(circle at 32% 26%, #ffd8a8, #e8834e 48%, #7c331a 100%)",
+    label: "the comet trail",
+    title: "A little adventure",
+    note: "chapter two",
+    desc: "Somewhere between here and there, we got carried away — in the best way.",
+    photos: [
+      { img: null, cap: "on the way", date: "" },
+      { img: null, cap: "got lost, didn't mind", date: "" },
+      { img: null, cap: "that afternoon", date: "" }
+    ]
+  },
+  {
+    id: "cave",
+    position: { x: 20, y: 46 },
+    size: 86,
+    bg: "radial-gradient(circle at 24% 62%, rgba(0,0,0,0.28) 7%, transparent 8%), radial-gradient(circle at 66% 32%, rgba(0,0,0,0.22) 5%, transparent 6%), radial-gradient(circle at 48% 75%, rgba(0,0,0,0.2) 6%, transparent 7%), radial-gradient(circle at 30% 24%, #cbbfa8, #7c6b52 52%, #372f22 100%)",
+    label: "the quiet cave",
+    title: "The quiet in between",
+    note: "chapter three",
+    desc: "The slower moments. The ones with no plans, just company.",
+    photos: [
+      { img: null, cap: "just talking", date: "" },
+      { img: null, cap: "comfortable silence", date: "" }
+    ]
+  },
+  {
+    id: "planet",
+    position: { x: 76, y: 68 },
+    size: 96,
+    bg: "radial-gradient(circle at 30% 25%, #bdeadb, #4f9c8f 46%, #163d38 100%)",
+    ring: true,
+    label: "the far planet",
+    title: "New ground",
+    note: "chapter four",
+    desc: "A little further than we'd been before, and glad we went.",
+    photos: [
+      { img: null, cap: "new place", date: "" },
+      { img: null, cap: "worth the trip", date: "" },
+      { img: null, cap: "again soon?", date: "" }
+    ]
+  },
+  {
+    id: "moon",
+    position: { x: 80, y: 90 },
+    size: 130,
+    bg: "radial-gradient(circle at 32% 28%, #fbf3d8 0%, #f4d488 40%, #d9a94b 72%, #a97f34 100%)",
+    isMoon: true,
+    label: "here, now",
+    title: "Under this moon",
+    note: "the last stop, so far",
+    desc: "Every road on this little map leads back to this — right here, right now.",
+    photos: [
+      { img: null, cap: "tonight", date: "" },
+      { img: null, cap: "still here", date: "" },
+      { img: null, cap: "to be continued", date: "" }
+    ]
+  }
+];
+
+const scene = document.getElementById('scene');
+const overlay = document.getElementById('overlay');
+const albumContent = document.getElementById('albumContent');
+const svg = document.getElementById('path-svg');
+const pathEl = document.getElementById('travel-path');
+
+/* ---- set overall scene height based on number of stops ---- */
+const VH_PER_STOP = 58;
+const CLOSING_VH = 55;
+function sceneHeightPx(){
+  return Math.round(window.innerHeight * ((VH_PER_STOP * journeyData.length + CLOSING_VH) / 100));
+}
+scene.style.height = sceneHeightPx() + 'px';
+
+/* ---- stars, spread across the whole scrollable height ---- */
+function makeStars(count){
+  const frag = document.createDocumentFragment();
+  for(let i=0;i<count;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*1.7 + 0.6;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDuration = (Math.random()*3 + 2.5)+'s';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    frag.appendChild(s);
+  }
+  scene.appendChild(frag);
+}
+makeStars(Math.round(280 * journeyData.length / 5));
+
+/* ---- occasional shooting star (fixed to viewport) ---- */
+function launchShootingStar(){
+  const el = document.getElementById('shootingStar');
+  el.style.top = (Math.random()*30 + 4)+'%';
+  el.style.left = (Math.random()*10 - 5)+'%';
+  el.classList.remove('fire');
+  void el.offsetWidth;
+  el.classList.add('fire');
+}
+setTimeout(launchShootingStar, 4000);
+setInterval(launchShootingStar, 9000);
+
+/* ---- build waypoints ---- */
+journeyData.forEach(stop => {
+  const wrap = document.createElement('div');
+  wrap.className = 'waypoint' + (stop.isMoon ? ' moon-stop' : '');
+  wrap.style.left = stop.position.x + '%';
+  wrap.style.top = stop.position.y + '%';
+
+  const btn = document.createElement('button');
+  btn.className = 'planet-btn' + (stop.ring ? ' ring' : '');
+  btn.style.width = stop.size + 'px';
+  btn.style.height = stop.size + 'px';
+  btn.style.background = stop.bg;
+  btn.setAttribute('aria-label', stop.title);
+
+  const cap = document.createElement('div');
+  cap.className = 'caption';
+  if(stop.isStart){
+    cap.innerHTML = `<span class="intro-eyebrow">${stop.introEyebrow}</span><p class="intro-heading">${stop.introHeading}</p>`;
+  } else {
+    cap.innerHTML = `<span class="label">${stop.label}</span>`;
+  }
+
+  wrap.appendChild(btn);
+  wrap.appendChild(cap);
+  wrap.addEventListener('click', () => openAlbum(stop));
+  scene.appendChild(wrap);
+});
+
+/* ---- draw a smooth path through the waypoints in real pixel space ---- */
+function catmullRom2bezier(points){
+  let d = `M${points[0].x},${points[0].y}`;
+  for(let i=0;i<points.length-1;i++){
+    const p0 = points[i===0 ? 0 : i-1];
+    const p1 = points[i];
+    const p2 = points[i+1];
+    const p3 = points[i+2] || p2;
+    const c1x = p1.x + (p2.x - p0.x) / 6;
+    const c1y = p1.y + (p2.y - p0.y) / 6;
+    const c2x = p2.x - (p3.x - p1.x) / 6;
+    const c2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2.x},${p2.y}`;
+  }
+  return d;
+}
+
+function drawPath(){
+  const w = scene.offsetWidth;
+  const h = scene.offsetHeight;
+  svg.setAttribute('width', w);
+  svg.setAttribute('height', h);
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  const pts = journeyData.map(s => ({ x: s.position.x/100*w, y: s.position.y/100*h }));
+  pathEl.setAttribute('d', catmullRom2bezier(pts));
+  const len = pathEl.getTotalLength();
+  pathEl.style.strokeDasharray = '14 12';
+  pathEl.style.strokeDashoffset = len;
+  pathEl.getBoundingClientRect(); // force reflow
+  pathEl.style.transition = `stroke-dashoffset ${Math.min(6, 2 + journeyData.length)}s ease-out`;
+  requestAnimationFrame(() => { pathEl.style.strokeDashoffset = 0; });
+}
+window.addEventListener('load', drawPath);
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    scene.style.height = sceneHeightPx() + 'px';
+    drawPath();
+  }, 200);
+});
+
+/* ---- fade the scroll hint once the visitor starts scrolling ---- */
+const scrollHint = document.getElementById('scrollHint');
+window.addEventListener('scroll', () => {
+  scrollHint.style.opacity = window.scrollY > 160 ? '0' : '1';
+});
+
+/* ---- reveal the closing greeting once it scrolls into view ---- */
+const closingCard = document.getElementById('closingCard');
+const closingObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) closingCard.classList.add('show');
+  });
+}, { threshold: 0.4 });
+closingObserver.observe(closingCard);
+
+/* ---- album modal ---- */
+function openAlbum(stop){
+  const tilts = [-4, 3, -2, 5, -3, 2];
+  const photosHtml = stop.photos.map((p, i) => `
+    <div class="polaroid" style="--tilt:${tilts[i % tilts.length]}deg">
+      <div class="photo" style="${p.img ? `background:url('${p.img}') center/cover;` : 'background:linear-gradient(150deg,#e9e2d0,#d8cdb2);'}">
+        ${p.img ? '' : '✦'}
+      </div>
+      <span class="cap">${p.cap || ''}</span>
+      ${p.date ? `<span class="date">${p.date}</span>` : ''}
+    </div>
+  `).join('');
+
+  albumContent.innerHTML = `
+    <button class="album-close" aria-label="Close">✕</button>
+    <span class="stop-note">${stop.note}</span>
+    <h2>${stop.title}</h2>
+    <p class="desc">${stop.desc}</p>
+    <div class="polaroid-grid">${photosHtml}</div>
+  `;
+
+  albumContent.querySelector('.album-close').addEventListener('click', closeAlbum);
+  overlay.classList.add('open');
+}
+function closeAlbum(){ overlay.classList.remove('open'); }
+overlay.addEventListener('click', (e) => { if(e.target === overlay) closeAlbum(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeAlbum(); });
+</script>
+
+</body>
+</html>
