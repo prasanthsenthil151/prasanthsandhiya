@@ -2038,8 +2038,7 @@
   }
 
   // ---- SECRET LOCKER LOGIC (PASSWORD: 1619) ----
-  const LOCKER_CODE = "1619";
-  let currentPin = "";
+    let currentPin = "";
   const pinDots = document.querySelectorAll('#pinDots .pin-dot');
   const secretLockerCard = document.getElementById('secretLocker'); // the keypad div
   const pinModal = document.getElementById('pinModal');
@@ -2107,22 +2106,31 @@
         updatePinDots();
 
         if (currentPin.length === 4) {
-          if (currentPin === LOCKER_CODE) {
-            // ✅ Correct PIN — navigate to /sandhiya
-            setTimeout(() => {
-              sessionStorage.setItem('sandhiya_unlocked', 'true');
-              window.location.href = 'sandhiya/index.html';
-            }, 250);
-          } else {
-            // ❌ Wrong PIN — shake and reset
-            pinDots.forEach(dot => dot.classList.add('error'));
-            if (secretLockerCard) secretLockerCard.classList.add('shake');
-            setTimeout(() => {
-              if (secretLockerCard) secretLockerCard.classList.remove('shake');
+          fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pin: currentPin })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              setTimeout(() => {
+                window.location.href = '/sandhiya';
+              }, 250);
+            } else {
+              pinDots.forEach(dot => dot.classList.add('error'));
+              if (secretLockerCard) secretLockerCard.classList.add('shake');
+              setTimeout(() => {
+                if (secretLockerCard) secretLockerCard.classList.remove('shake');
+                currentPin = "";
+                updatePinDots();
+              }, 500);
+            }
+          })
+          .catch(err => {
               currentPin = "";
               updatePinDots();
-            }, 500);
-          }
+          });
         }
       }
     }
