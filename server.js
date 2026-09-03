@@ -6,7 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const PASSWORD = '1619';
+require('dotenv').config();
+const PASSWORD = process.env.LOCKER_PASSWORD;
 
 // Protect the secret page route
 app.use((req, res, next) => {
