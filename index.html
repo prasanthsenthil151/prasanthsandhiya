@@ -791,6 +791,42 @@
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
 </style>
+<style>
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .photo-grid .polaroid-card {
+    flex: unset;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .photo-grid .polaroid-card-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .photo-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .photo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -873,169 +909,757 @@
     </section>
 
     <!-- PHOTO GALLERY WITH DUAL AUTO-SCROLLING MARQUEE ROWS -->
+    
+    
     <section class="gallery-wrap">
       <div class="section" style="padding-bottom: 0.5rem;">
         <div class="section-label">🎀 to remember 🎀</div>
         <div class="section-title">A few little pictures</div>
       </div>
+      
+      <div class="gallery-container" id="autoScrollGallery">
 
-      <!-- ROW 1: AUTOMATICALLY SCROLLS RIGHT TO LEFT -->
-      <div class="marquee-section">
-        <div class="marquee-row scroll-r2l">
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353364/birthday-wish/tfcpqeoqhovokkbd51ct.jpg')">
             <div class="polaroid-card-frame">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 54c12-8 20-16 20-26a12 12 0 0 0-20-8 12 12 0 0 0-20 8c0 10 8 18 20 26z" fill="#fff" fill-opacity="0.9"/></svg>
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353364/birthday-wish/tfcpqeoqhovokkbd51ct.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
             <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFC93C, #F5A623);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="28" width="36" height="22" rx="2" fill="#fff" fill-opacity="0.9"/><rect x="20" y="14" width="8" height="16" fill="#fff" fill-opacity="0.7"/><rect x="36" y="14" width="8" height="16" fill="#fff" fill-opacity="0.7"/><circle cx="24" cy="10" r="3" fill="#fff"/><circle cx="40" cy="10" r="3" fill="#fff"/></svg>
-            </div>
-            <div class="polaroid-card-caption">make a wish 🎀</div>
-          </div>
-
-          <div class="polaroid-card" style="transform: rotate(-2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF7A45, #FF5D5D);">
-              <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="24" r="14" fill="#fff" fill-opacity="0.85"/><rect x="24" y="36" width="16" height="20" rx="2" fill="#fff" fill-opacity="0.7"/><rect x="18" y="42" width="6" height="12" fill="#fff" fill-opacity="0.6"/><rect x="40" y="42" width="6" height="12" fill="#fff" fill-opacity="0.6"/></svg>
-            </div>
-            <div class="polaroid-card-caption">balloons up 🎀</div>
-          </div>
-
-          <div class="polaroid-card" style="transform: rotate(3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFE28A, #FFC93C);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 12l4 10 10 1-8 7 3 10-9-6-9 6 3-10-8-7 10-1z" fill="#fff" fill-opacity="0.9"/></svg>
-            </div>
-            <div class="polaroid-card-caption">shine on 🎀</div>
-          </div>
-
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF6B8B, #FF1744);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 10 L38 24 L52 24 L40 32 L44 46 L32 38 L20 46 L24 32 L12 24 L26 24 Z" fill="#fff" fill-opacity="0.9"/></svg>
-            </div>
-            <div class="polaroid-card-caption">queen today 👑</div>
-          </div>
-
-          <!-- Duplicated Set 1 for Infinite Scroll -->
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353367/birthday-wish/eoy9ed9izdejteifkhpv.jpg')">
             <div class="polaroid-card-frame">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 54c12-8 20-16 20-26a12 12 0 0 0-20-8 12 12 0 0 0-20 8c0 10 8 18 20 26z" fill="#fff" fill-opacity="0.9"/></svg>
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353367/birthday-wish/eoy9ed9izdejteifkhpv.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
             <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFC93C, #F5A623);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="28" width="36" height="22" rx="2" fill="#fff" fill-opacity="0.9"/><rect x="20" y="14" width="8" height="16" fill="#fff" fill-opacity="0.7"/><rect x="36" y="14" width="8" height="16" fill="#fff" fill-opacity="0.7"/><circle cx="24" cy="10" r="3" fill="#fff"/><circle cx="40" cy="10" r="3" fill="#fff"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353370/birthday-wish/xedmkse41cozqernuaqb.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353370/birthday-wish/xedmkse41cozqernuaqb.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">make a wish 🎀</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF7A45, #FF5D5D);">
-              <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="24" r="14" fill="#fff" fill-opacity="0.85"/><rect x="24" y="36" width="16" height="20" rx="2" fill="#fff" fill-opacity="0.7"/><rect x="18" y="42" width="6" height="12" fill="#fff" fill-opacity="0.6"/><rect x="40" y="42" width="6" height="12" fill="#fff" fill-opacity="0.6"/></svg>
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353372/birthday-wish/vfxkruj7yhdw5lzjpqkc.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353372/birthday-wish/vfxkruj7yhdw5lzjpqkc.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">balloons up 🎀</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFE28A, #FFC93C);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 12l4 10 10 1-8 7 3 10-9-6-9 6 3-10-8-7 10-1z" fill="#fff" fill-opacity="0.9"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353374/birthday-wish/qt7jw8kxa94cfwzbaff8.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353374/birthday-wish/qt7jw8kxa94cfwzbaff8.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">shine on 🎀</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF6B8B, #FF1744);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 10 L38 24 L52 24 L40 32 L44 46 L32 38 L20 46 L24 32 L12 24 L26 24 Z" fill="#fff" fill-opacity="0.9"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354101/birthday-wish/x1ixowsntwkvmkqt28zz.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354101/birthday-wish/x1ixowsntwkvmkqt28zz.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">queen today 👑</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
-        </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354112/birthday-wish/s15zqywh68tv8puov74k.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354112/birthday-wish/s15zqywh68tv8puov74k.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354116/birthday-wish/aorujpinghbrsa7uy6mu.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354116/birthday-wish/aorujpinghbrsa7uy6mu.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354121/birthday-wish/zhftlklvegjhgmjznj9d.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354121/birthday-wish/zhftlklvegjhgmjznj9d.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354123/birthday-wish/nzeyajzqcd8flbalrdrr.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354123/birthday-wish/nzeyajzqcd8flbalrdrr.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355369/birthday-wish/hgacsqfvyjsxczsftxjr.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355369/birthday-wish/hgacsqfvyjsxczsftxjr.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355378/birthday-wish/tdttmjzlahri8k1sxedi.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355378/birthday-wish/tdttmjzlahri8k1sxedi.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788357287/birthday-wish/qzncxvfvl44bjzwcuwgk.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788357287/birthday-wish/qzncxvfvl44bjzwcuwgk.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355607/birthday-wish/zoo7x11wvwjyqdw9p0wo.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355607/birthday-wish/zoo7x11wvwjyqdw9p0wo.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355642/birthday-wish/iwjfxjjfnloctsqaiglu.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355642/birthday-wish/iwjfxjjfnloctsqaiglu.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356518/birthday-wish/djan8iptafbgunp9cca3.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356518/birthday-wish/djan8iptafbgunp9cca3.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356546/birthday-wish/wpxi2r7mlxiqqtuybjtj.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356546/birthday-wish/wpxi2r7mlxiqqtuybjtj.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356572/birthday-wish/d5rog1wsrnxzq0dzxwlx.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356572/birthday-wish/d5rog1wsrnxzq0dzxwlx.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356616/birthday-wish/pqwihzku26k3uaianmjl.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356616/birthday-wish/pqwihzku26k3uaianmjl.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356636/birthday-wish/tybbb4huuycbforgxzfw.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356636/birthday-wish/tybbb4huuycbforgxzfw.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359217/birthday-wish/xtgpuaqe1jaqom0nswjj.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359217/birthday-wish/xtgpuaqe1jaqom0nswjj.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359225/birthday-wish/bmilp0fcgbq5obiqsw5l.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359225/birthday-wish/bmilp0fcgbq5obiqsw5l.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359238/birthday-wish/ggvxq152tvxxko7is2hn.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359238/birthday-wish/ggvxq152tvxxko7is2hn.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359242/birthday-wish/mqwkch0j0z8abi06kcs7.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359242/birthday-wish/mqwkch0j0z8abi06kcs7.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359249/birthday-wish/x9ld4nrvx6kuqyger29h.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359249/birthday-wish/x9ld4nrvx6kuqyger29h.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          
+          
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353364/birthday-wish/tfcpqeoqhovokkbd51ct.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353364/birthday-wish/tfcpqeoqhovokkbd51ct.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353367/birthday-wish/eoy9ed9izdejteifkhpv.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353367/birthday-wish/eoy9ed9izdejteifkhpv.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353370/birthday-wish/xedmkse41cozqernuaqb.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353370/birthday-wish/xedmkse41cozqernuaqb.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353372/birthday-wish/vfxkruj7yhdw5lzjpqkc.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353372/birthday-wish/vfxkruj7yhdw5lzjpqkc.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788353374/birthday-wish/qt7jw8kxa94cfwzbaff8.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788353374/birthday-wish/qt7jw8kxa94cfwzbaff8.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354101/birthday-wish/x1ixowsntwkvmkqt28zz.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354101/birthday-wish/x1ixowsntwkvmkqt28zz.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354112/birthday-wish/s15zqywh68tv8puov74k.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354112/birthday-wish/s15zqywh68tv8puov74k.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354116/birthday-wish/aorujpinghbrsa7uy6mu.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354116/birthday-wish/aorujpinghbrsa7uy6mu.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354121/birthday-wish/zhftlklvegjhgmjznj9d.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354121/birthday-wish/zhftlklvegjhgmjznj9d.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788354123/birthday-wish/nzeyajzqcd8flbalrdrr.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788354123/birthday-wish/nzeyajzqcd8flbalrdrr.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355369/birthday-wish/hgacsqfvyjsxczsftxjr.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355369/birthday-wish/hgacsqfvyjsxczsftxjr.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355378/birthday-wish/tdttmjzlahri8k1sxedi.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355378/birthday-wish/tdttmjzlahri8k1sxedi.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788357287/birthday-wish/qzncxvfvl44bjzwcuwgk.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788357287/birthday-wish/qzncxvfvl44bjzwcuwgk.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355607/birthday-wish/zoo7x11wvwjyqdw9p0wo.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355607/birthday-wish/zoo7x11wvwjyqdw9p0wo.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788355642/birthday-wish/iwjfxjjfnloctsqaiglu.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788355642/birthday-wish/iwjfxjjfnloctsqaiglu.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356518/birthday-wish/djan8iptafbgunp9cca3.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356518/birthday-wish/djan8iptafbgunp9cca3.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356546/birthday-wish/wpxi2r7mlxiqqtuybjtj.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356546/birthday-wish/wpxi2r7mlxiqqtuybjtj.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356572/birthday-wish/d5rog1wsrnxzq0dzxwlx.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356572/birthday-wish/d5rog1wsrnxzq0dzxwlx.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356616/birthday-wish/pqwihzku26k3uaianmjl.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356616/birthday-wish/pqwihzku26k3uaianmjl.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788356636/birthday-wish/tybbb4huuycbforgxzfw.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788356636/birthday-wish/tybbb4huuycbforgxzfw.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359217/birthday-wish/xtgpuaqe1jaqom0nswjj.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359217/birthday-wish/xtgpuaqe1jaqom0nswjj.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359225/birthday-wish/bmilp0fcgbq5obiqsw5l.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359225/birthday-wish/bmilp0fcgbq5obiqsw5l.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359238/birthday-wish/ggvxq152tvxxko7is2hn.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359238/birthday-wish/ggvxq152tvxxko7is2hn.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359242/birthday-wish/mqwkch0j0z8abi06kcs7.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359242/birthday-wish/mqwkch0j0z8abi06kcs7.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788359249/birthday-wish/x9ld4nrvx6kuqyger29h.png')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788359249/birthday-wish/x9ld4nrvx6kuqyger29h.png" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          
+          
       </div>
+    
+      <div class="gallery-container" id="autoScrollGallery2" style="margin-top: 2rem;">
 
-      <!-- ROW 2: AUTOMATICALLY SCROLLS LEFT TO RIGHT -->
-      <div class="marquee-section">
-        <div class="marquee-row scroll-l2r">
-          <div class="polaroid-card" style="transform: rotate(3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #F5A623, #FF7A45);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="18" y="22" width="28" height="28" rx="4" fill="#fff" fill-opacity="0.9"/><path d="M18 32 H46 M32 22 V50" stroke="#FF7A45" stroke-width="3"/></svg>
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444011/birthday-wish/h3ut2tyqriispxh8nett.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444011/birthday-wish/h3ut2tyqriispxh8nett.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">sweet surprise 🎁</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF5D5D, #FF6B8B);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 14 C 20 6 10 16 10 26 C 10 38 24 46 32 54 C 40 46 54 38 54 26 C 54 16 44 6 32 14 Z" fill="#fff" fill-opacity="0.9"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444017/birthday-wish/zn489ngr4zd2kpcbhnuk.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444017/birthday-wish/zn489ngr4zd2kpcbhnuk.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">pure love ❤️</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFC93C, #FFE28A);">
-              <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="16" fill="#fff" fill-opacity="0.9"/><path d="M32 10 V16 M32 48 V54 M10 32 H16 M48 32 H54" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444022/birthday-wish/cx2wirddxjx6suzhkr5y.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444022/birthday-wish/cx2wirddxjx6suzhkr5y.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">bright sunshine ☀️</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF7A45, #F5A623);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="20" width="36" height="26" rx="4" fill="#fff" fill-opacity="0.9"/><circle cx="32" cy="33" r="7" fill="#FF7A45"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444024/birthday-wish/zjvlognqtl6worhqcyof.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444024/birthday-wish/zjvlognqtl6worhqcyof.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">captured moments 📸</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF6B8B, #FFC93C);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M14 42 C 20 24 44 24 50 42" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/></svg>
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444026/birthday-wish/y0losx3ttb5t76rlmgvc.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444026/birthday-wish/y0losx3ttb5t76rlmgvc.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">golden memories 🌸</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <!-- Duplicated Set 2 for Infinite Scroll -->
-          <div class="polaroid-card" style="transform: rotate(3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #F5A623, #FF7A45);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="18" y="22" width="28" height="28" rx="4" fill="#fff" fill-opacity="0.9"/><path d="M18 32 H46 M32 22 V50" stroke="#FF7A45" stroke-width="3"/></svg>
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444028/birthday-wish/baovsz21j3afd6ta1g5b.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444028/birthday-wish/baovsz21j3afd6ta1g5b.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">sweet surprise 🎁</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF5D5D, #FF6B8B);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M32 14 C 20 6 10 16 10 26 C 10 38 24 46 32 54 C 40 46 54 38 54 26 C 54 16 44 6 32 14 Z" fill="#fff" fill-opacity="0.9"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444029/birthday-wish/xsyjvwremol2cfik0vyr.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444029/birthday-wish/xsyjvwremol2cfik0vyr.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">pure love ❤️</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FFC93C, #FFE28A);">
-              <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="16" fill="#fff" fill-opacity="0.9"/><path d="M32 10 V16 M32 48 V54 M10 32 H16 M48 32 H54" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444031/birthday-wish/zkiu5od46yvjonzdzxvb.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444031/birthday-wish/zkiu5od46yvjonzdzxvb.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">bright sunshine ☀️</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(-3deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF7A45, #F5A623);">
-              <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="20" width="36" height="26" rx="4" fill="#fff" fill-opacity="0.9"/><circle cx="32" cy="33" r="7" fill="#FF7A45"/></svg>
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444033/birthday-wish/emjgywxkr78mpimxyrnt.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444033/birthday-wish/emjgywxkr78mpimxyrnt.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">captured moments 📸</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
 
-          <div class="polaroid-card" style="transform: rotate(2deg);">
-            <div class="polaroid-card-frame" style="background: linear-gradient(135deg, #FF6B8B, #FFC93C);">
-              <svg viewBox="0 0 64 64" fill="none"><path d="M14 42 C 20 24 44 24 50 42" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/></svg>
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444034/birthday-wish/v36c2wzvrn9u30thmri1.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444034/birthday-wish/v36c2wzvrn9u30thmri1.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
             </div>
-            <div class="polaroid-card-caption">golden memories 🌸</div>
+            <div class="polaroid-card-caption">for you 🎀</div>
           </div>
-        </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444036/birthday-wish/muhmigpujtex9ljz0acf.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444036/birthday-wish/muhmigpujtex9ljz0acf.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444037/birthday-wish/e472os7a6jqvrrtdfy2k.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444037/birthday-wish/e472os7a6jqvrrtdfy2k.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444038/birthday-wish/axohfhpr2h16frewwi3g.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444038/birthday-wish/axohfhpr2h16frewwi3g.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444039/birthday-wish/pwjhjrvlvddhowlxyvnk.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444039/birthday-wish/pwjhjrvlvddhowlxyvnk.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444041/birthday-wish/gybd57lus4t9eme81cdv.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444041/birthday-wish/gybd57lus4t9eme81cdv.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444042/birthday-wish/cdkoljuiz1lxaw6qlxmr.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444042/birthday-wish/cdkoljuiz1lxaw6qlxmr.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444043/birthday-wish/yfayjlnwqh4d2wjzaglz.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444043/birthday-wish/yfayjlnwqh4d2wjzaglz.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444044/birthday-wish/dobn1gn0r6jzci7bxqlp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444044/birthday-wish/dobn1gn0r6jzci7bxqlp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444046/birthday-wish/se1nynee6ntpbvqrz86u.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444046/birthday-wish/se1nynee6ntpbvqrz86u.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444048/birthday-wish/wme9v7kcywtibz5vdel4.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444048/birthday-wish/wme9v7kcywtibz5vdel4.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444050/birthday-wish/pwspeujrrzewha9ddcfp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444050/birthday-wish/pwspeujrrzewha9ddcfp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444052/birthday-wish/ulyp0vir7rkzgxavm8an.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444052/birthday-wish/ulyp0vir7rkzgxavm8an.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444054/birthday-wish/oajx0xiam3woyfcfxml8.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444054/birthday-wish/oajx0xiam3woyfcfxml8.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444055/birthday-wish/uzwmd6bioriynwvkckpt.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444055/birthday-wish/uzwmd6bioriynwvkckpt.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444057/birthday-wish/peehs3xqiaxdqdjawbmp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444057/birthday-wish/peehs3xqiaxdqdjawbmp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444059/birthday-wish/nqadq7uy13wq7fejrmus.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444059/birthday-wish/nqadq7uy13wq7fejrmus.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444060/birthday-wish/cvcahcz7ydqjj5buvc2n.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444060/birthday-wish/cvcahcz7ydqjj5buvc2n.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444011/birthday-wish/h3ut2tyqriispxh8nett.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444011/birthday-wish/h3ut2tyqriispxh8nett.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444017/birthday-wish/zn489ngr4zd2kpcbhnuk.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444017/birthday-wish/zn489ngr4zd2kpcbhnuk.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444022/birthday-wish/cx2wirddxjx6suzhkr5y.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444022/birthday-wish/cx2wirddxjx6suzhkr5y.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444024/birthday-wish/zjvlognqtl6worhqcyof.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444024/birthday-wish/zjvlognqtl6worhqcyof.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444026/birthday-wish/y0losx3ttb5t76rlmgvc.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444026/birthday-wish/y0losx3ttb5t76rlmgvc.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444028/birthday-wish/baovsz21j3afd6ta1g5b.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444028/birthday-wish/baovsz21j3afd6ta1g5b.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444029/birthday-wish/xsyjvwremol2cfik0vyr.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444029/birthday-wish/xsyjvwremol2cfik0vyr.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444031/birthday-wish/zkiu5od46yvjonzdzxvb.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444031/birthday-wish/zkiu5od46yvjonzdzxvb.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444033/birthday-wish/emjgywxkr78mpimxyrnt.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444033/birthday-wish/emjgywxkr78mpimxyrnt.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444034/birthday-wish/v36c2wzvrn9u30thmri1.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444034/birthday-wish/v36c2wzvrn9u30thmri1.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444036/birthday-wish/muhmigpujtex9ljz0acf.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444036/birthday-wish/muhmigpujtex9ljz0acf.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444037/birthday-wish/e472os7a6jqvrrtdfy2k.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444037/birthday-wish/e472os7a6jqvrrtdfy2k.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444038/birthday-wish/axohfhpr2h16frewwi3g.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444038/birthday-wish/axohfhpr2h16frewwi3g.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444039/birthday-wish/pwjhjrvlvddhowlxyvnk.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444039/birthday-wish/pwjhjrvlvddhowlxyvnk.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444041/birthday-wish/gybd57lus4t9eme81cdv.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444041/birthday-wish/gybd57lus4t9eme81cdv.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444042/birthday-wish/cdkoljuiz1lxaw6qlxmr.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444042/birthday-wish/cdkoljuiz1lxaw6qlxmr.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444043/birthday-wish/yfayjlnwqh4d2wjzaglz.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444043/birthday-wish/yfayjlnwqh4d2wjzaglz.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444044/birthday-wish/dobn1gn0r6jzci7bxqlp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444044/birthday-wish/dobn1gn0r6jzci7bxqlp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444046/birthday-wish/se1nynee6ntpbvqrz86u.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444046/birthday-wish/se1nynee6ntpbvqrz86u.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444048/birthday-wish/wme9v7kcywtibz5vdel4.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444048/birthday-wish/wme9v7kcywtibz5vdel4.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444050/birthday-wish/pwspeujrrzewha9ddcfp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444050/birthday-wish/pwspeujrrzewha9ddcfp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444052/birthday-wish/ulyp0vir7rkzgxavm8an.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444052/birthday-wish/ulyp0vir7rkzgxavm8an.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444054/birthday-wish/oajx0xiam3woyfcfxml8.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444054/birthday-wish/oajx0xiam3woyfcfxml8.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444055/birthday-wish/uzwmd6bioriynwvkckpt.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444055/birthday-wish/uzwmd6bioriynwvkckpt.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444057/birthday-wish/peehs3xqiaxdqdjawbmp.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444057/birthday-wish/peehs3xqiaxdqdjawbmp.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(3deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444059/birthday-wish/nqadq7uy13wq7fejrmus.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444059/birthday-wish/nqadq7uy13wq7fejrmus.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
+          <div class="polaroid-card" style="transform: rotate(-2deg);" onclick="openLightbox('https://res.cloudinary.com/oaktnbdl/image/upload/v1788444060/birthday-wish/cvcahcz7ydqjj5buvc2n.jpg')">
+            <div class="polaroid-card-frame">
+              <img src="https://res.cloudinary.com/oaktnbdl/image/upload/v1788444060/birthday-wish/cvcahcz7ydqjj5buvc2n.jpg" style="position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover;" alt="">
+            </div>
+            <div class="polaroid-card-caption">for you 🎀</div>
+          </div>
+
       </div>
-
-      <p class="gallery-hint">(swap these frames for your own photos of the two of you — they'll mean even more)</p>
 
       <!-- SMALL LOCK ICON (click to open PIN modal) -->
       <div class="secret-locker-wrap" style="text-align:center; margin:2.5rem auto 0;">
-        <button class="lock-icon-btn" id="lockIconBtn" title="Secret Locker 🔒">
+        <button class="lock-icon-btn" id="lockIconBtn" title="Secret Locker 🗝️">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
             <rect x="12" y="30" width="40" height="26" rx="6" fill="#4A3405" fill-opacity="0.9"/>
             <path d="M20 30V22a12 12 0 0 1 24 0v8" stroke="#4A3405" stroke-width="5" stroke-linecap="round" fill="none"/>
@@ -1049,7 +1673,7 @@
       <!-- PIN ENTRY MODAL OVERLAY -->
       <div id="pinModal" class="pin-modal-overlay">
         <div class="pin-modal-card" id="pinModalCard">
-          <button class="pin-modal-close" id="pinModalClose">✕</button>
+          <button class="pin-modal-close" id="pinModalClose">✖</button>
           <div class="locker-icon-badge" id="lockerBadge" style="margin:0 auto 0.8rem;">🔒</div>
           <div class="locker-title">Secret Locker 🎀</div>
           <p class="locker-subtitle">Enter 4-digit passcode to unlock</p>
@@ -1077,7 +1701,202 @@
           </div>
         </div>
       </div>
-    </section>
+</section>
+    
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+      <span class="lightbox-close">&times;</span>
+      <img src="" class="lightbox-img" id="lightboxImg">
+    </div>
+
+    <style>
+      .gallery-container {
+        overflow-x: auto;
+        white-space: nowrap;
+        display: flex;
+        gap: 1.5rem;
+        padding: 2rem 1.5rem;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* IE and Edge */
+        cursor: grab;
+      }
+      .gallery-container::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .gallery-container .polaroid-card {
+        flex: 0 0 200px;
+        background: #fff;
+        padding: 0.8rem 0.8rem 1.4rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 24px rgba(74,52,5,0.14);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .gallery-container .polaroid-card:hover {
+        transform: scale(1.08) translateY(-6px) !important;
+        box-shadow: 0 16px 32px rgba(74,52,5,0.22);
+      }
+      
+      .gallery-container .polaroid-card-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 4px;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--sun), var(--coral));
+      }
+
+      .lightbox-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .lightbox-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+      .lightbox-img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        object-fit: contain;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        user-select: none;
+      }
+    </style>
+
+    <script>
+      const gallery = document.getElementById('autoScrollGallery');
+      let isScrolling = true;
+      let scrollSpeed = 1;
+
+      function autoScroll() {
+        if (isScrolling) {
+          gallery.scrollLeft += scrollSpeed;
+          // Smooth infinite scroll: reset to 0 when we reached half of the total scroll width
+          // since we duplicated the content
+          if (gallery.scrollLeft >= gallery.scrollWidth / 2) {
+            gallery.scrollLeft = 0;
+          }
+        }
+        requestAnimationFrame(autoScroll);
+      }
+
+      // Pause on hover
+      gallery.addEventListener('mouseenter', () => isScrolling = false);
+      gallery.addEventListener('mouseleave', () => isScrolling = true);
+      gallery.addEventListener('touchstart', () => isScrolling = false);
+      gallery.addEventListener('touchend', () => { setTimeout(() => isScrolling = true, 1000); });
+
+      // Manual drag to scroll
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      
+      gallery.addEventListener('mousedown', (e) => {
+        isDown = true;
+        isScrolling = false;
+        gallery.style.cursor = 'grabbing';
+        startX = e.pageX - gallery.offsetLeft;
+        scrollLeft = gallery.scrollLeft;
+      });
+      gallery.addEventListener('mouseleave', () => {
+        isDown = false;
+        gallery.style.cursor = 'grab';
+      });
+      gallery.addEventListener('mouseup', () => {
+        isDown = false;
+        gallery.style.cursor = 'grab';
+        isScrolling = true;
+      });
+      gallery.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - gallery.offsetLeft;
+        const walk = (x - startX) * 2;
+        gallery.scrollLeft = scrollLeft - walk;
+      });
+      
+      autoScroll();
+
+      function openLightbox(src) {
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightboxOverlay').classList.add('active');
+      }
+      function closeLightbox() {
+        document.getElementById('lightboxOverlay').classList.remove('active');
+      }
+    
+      const gallery2 = document.getElementById('autoScrollGallery2');
+      let isScrolling2 = true;
+
+      function autoScroll2() {
+        if (isScrolling2) {
+          gallery2.scrollLeft -= scrollSpeed;
+          if (gallery2.scrollLeft <= 0) {
+            gallery2.scrollLeft = gallery2.scrollWidth / 2;
+          }
+        }
+        requestAnimationFrame(autoScroll2);
+      }
+
+      gallery2.addEventListener('mouseenter', () => isScrolling2 = false);
+      gallery2.addEventListener('mouseleave', () => isScrolling2 = true);
+      gallery2.addEventListener('touchstart', () => isScrolling2 = false);
+      gallery2.addEventListener('touchend', () => { setTimeout(() => isScrolling2 = true, 1000); });
+
+      let isDown2 = false;
+      let startX2;
+      let scrollLeft2;
+      
+      gallery2.addEventListener('mousedown', (e) => {
+        isDown2 = true;
+        isScrolling2 = false;
+        gallery2.style.cursor = 'grabbing';
+        startX2 = e.pageX - gallery2.offsetLeft;
+        scrollLeft2 = gallery2.scrollLeft;
+      });
+      gallery2.addEventListener('mouseleave', () => {
+        isDown2 = false;
+        gallery2.style.cursor = 'grab';
+      });
+      gallery2.addEventListener('mouseup', () => {
+        isDown2 = false;
+        gallery2.style.cursor = 'grab';
+        isScrolling2 = true;
+      });
+      gallery2.addEventListener('mousemove', (e) => {
+        if (!isDown2) return;
+        e.preventDefault();
+        const x = e.pageX - gallery2.offsetLeft;
+        const walk = (x - startX2) * 2;
+        gallery2.scrollLeft = scrollLeft2 - walk;
+      });
+      
+      // Initialize scrollLeft for leftward scroll
+      setTimeout(() => {
+        gallery2.scrollLeft = gallery2.scrollWidth / 2;
+        autoScroll2();
+      }, 500);
+</script>
+
+
 
     <footer>
       Happy Birthday<span id="footerName">, Sandhiya</span> 🎀
@@ -1291,7 +2110,8 @@
           if (currentPin === LOCKER_CODE) {
             // ✅ Correct PIN — navigate to /sandhiya
             setTimeout(() => {
-              window.location.href = '/sandhiya';
+              sessionStorage.setItem('sandhiya_unlocked', 'true');
+              window.location.href = 'sandhiya/index.html';
             }, 250);
           } else {
             // ❌ Wrong PIN — shake and reset
