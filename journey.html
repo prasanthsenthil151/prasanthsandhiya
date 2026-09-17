@@ -262,7 +262,7 @@
 
   .polaroid-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
     gap:18px;
   }
   .polaroid{
@@ -276,12 +276,14 @@
   .polaroid:hover{ transform:rotate(0deg) translateY(-3px); }
   .polaroid .photo{
     width:100%;
-    aspect-ratio:1/1;
+    aspect-ratio:3/4;
     border-radius:1px;
     display:flex; align-items:center; justify-content:center;
     font-size:1.6rem;
     color:rgba(20,18,10,0.35);
     border:1px dashed rgba(20,18,10,0.2);
+    background-size:cover !important;
+    background-position:center !important;
   }
   .polaroid .cap{
     display:block;
@@ -403,8 +405,11 @@ const journeyData = [
     note: "chapter one",
     desc: "Every map needs a first mark. This is ours — before the road knew where it was going.",
     photos: [
-      { img: null, cap: "day one", date: "" },
-      { img: null, cap: "so it begins", date: "" }
+      { img: "images/ch1_1.png", cap: "us, on the way", date: "" },
+      { img: "images/ch1_2.png", cap: "holding on", date: "" },
+      { img: "images/ch1_3.png", cap: "never letting go", date: "" },
+      { img: "images/ch1_4.jpg", cap: "our little world", date: "" },
+      { img: "images/ch1_5.png", cap: "interlaced", date: "" }
     ]
   },
   {
