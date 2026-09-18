@@ -2344,7 +2344,7 @@ Once again Hpy B'day thago"></p>
 
   // ---- BIRTHDAY COUNTDOWN TIMER TO 19-09-2026 ----
   const targetDate = new Date("2026-09-19T00:00:00").getTime();
-  const TEST_MODE = true; // Test mode active: button revealed for testing
+  const TEST_MODE = false; // Countdown active: button hidden until time reaches 00:00:00:00
 
   function updateCountdown() {
     const now = new Date().getTime();
