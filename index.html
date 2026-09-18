@@ -2550,14 +2550,20 @@ Once again Hpy B'day thago"></p>
         updatePinDots();
 
         if (currentPin.length === 6) {
+          const submittedPin = currentPin;
           fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pin: currentPin })
+            body: JSON.stringify({ pin: submittedPin })
           })
-          .then(res => res.json())
+          .then(res => {
+            if (!res.ok && res.status !== 401) {
+              throw new Error('API not available');
+            }
+            return res.json();
+          })
           .then(data => {
-            if (data.success) {
+            if (data && data.success) {
               setTimeout(() => {
                 window.location.href = '/sandhiya';
               }, 250);
@@ -2572,8 +2578,20 @@ Once again Hpy B'day thago"></p>
             }
           })
           .catch(err => {
-              currentPin = "";
-              updatePinDots();
+            // Direct password fallback for static hosting deployments
+            if (submittedPin === '151333') {
+              setTimeout(() => {
+                window.location.href = './sandhiya/';
+              }, 250);
+            } else {
+              pinDots.forEach(dot => dot.classList.add('error'));
+              if (secretLockerCard) secretLockerCard.classList.add('shake');
+              setTimeout(() => {
+                if (secretLockerCard) secretLockerCard.classList.remove('shake');
+                currentPin = "";
+                updatePinDots();
+              }, 500);
+            }
           });
         }
       }

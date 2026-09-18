@@ -16,8 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 
-require('dotenv').config();
-const PASSWORD = process.env.LOCKER_PASSWORD || '151333';
+// Direct locker password (hardcoded so it works in any deployment without requiring .env)
+const PASSWORD = '151333';
 
 const crypto = require('crypto');
 
@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 
 app.post('/api/login', (req, res) => {
     const { pin } = req.body;
-    if (pin === PASSWORD) {
+    if (pin && String(pin).trim() === PASSWORD) {
         const sessionToken = crypto.randomBytes(32).toString('hex');
         // Valid for 2 hours
         validSessions.set(sessionToken, Date.now() + 2 * 60 * 60 * 1000);
