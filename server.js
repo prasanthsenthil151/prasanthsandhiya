@@ -6,6 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// Disable caching for all static files & routes so updates appear immediately
+app.use((req, res, next) => {
+    res.set({
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+    });
+    next();
+});
+
 require('dotenv').config();
 const PASSWORD = process.env.LOCKER_PASSWORD || '151333';
 

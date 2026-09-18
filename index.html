@@ -306,7 +306,7 @@
     position: fixed;
     inset: 0;
     z-index: 10000;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 18px;
@@ -315,8 +315,9 @@
     transition: opacity 0.3s ease;
   }
   .letter-pwd-modal.open {
-    opacity: 1;
-    pointer-events: auto;
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
   .letter-pwd-backdrop {
     position: absolute;
@@ -1120,7 +1121,7 @@
       <div class="section-label">🎀 for you 🎀</div>
       <div class="section-title">A few little letters</div>
 
-      <article class="letter locked" id="letter1">
+      <article class="letter locked" id="letter1" onclick="openLetterPwdModal()">
         <div class="letter-tag">Letter one 🎀</div>
         <div class="letter-content-wrap">
           <p class="letter-body" data-template="Happy birthday, Kullachi. ❤️
@@ -1130,13 +1131,13 @@ It’s your birthday, and it’s a very special day for me too.
 Intha birthday Naa en life la maraka matten First time unta pesama irukka birthday romba kastama iruku naa pesala nu ni sogama irukatha be happy always , but in tha life la enakku romba pudicha orey person ni mattum tha unna pudicha alavukku enna yaaraium pudikathu athu amma um tha ur very special person to me , thanks for the wonderfull moments my memories"></p>
           <div class="letter-sign">— with all my heart</div>
         </div>
-        <div class="letter-lock-overlay">
+        <div class="letter-lock-overlay" onclick="openLetterPwdModal()">
           <span class="lock-icon">🔒</span>
           <span class="lock-text">Tap to unlock letter 💌</span>
         </div>
       </article>
 
-      <article class="letter locked" id="letter2">
+      <article class="letter locked" id="letter2" onclick="openLetterPwdModal()">
         <div class="letter-tag">Letter two 🎀</div>
         <div class="letter-content-wrap">
           <p class="letter-body" data-template="Papa , enaikum aluvatha unakku ethavathu kastam na yosikama enta va , neeye thappu pannalum Naa un pakkam tha irupen ,naa un kuda irunthalum seri ilainalum seri unta naa kekarathu la onnu tha don't be cry 🥺💗
@@ -1144,7 +1145,7 @@ Intha birthday Naa en life la maraka matten First time unta pesama irukka birthd
 Once again Hpy B'day thago"></p>
           <div class="letter-sign">— always in your corner</div>
         </div>
-        <div class="letter-lock-overlay">
+        <div class="letter-lock-overlay" onclick="openLetterPwdModal()">
           <span class="lock-icon">🔒</span>
           <span class="lock-text">Tap to unlock letter 💌</span>
         </div>
@@ -2149,6 +2150,187 @@ Once again Hpy B'day thago"></p>
     </footer>
   </div>
 
+  <!-- CLOSE BUTTON (floats above secret page) -->
+  <button class="sp-close-btn" id="spCloseBtn" title="Close">✕</button>
+
+  <!-- SECRET PAGE: slides up when locker is unlocked -->
+  <div id="secretPage">
+
+    <!-- HERO WISH -->
+    <div class="sp-hero">
+      <div class="sp-eyebrow">🔓 just for you 🔓</div>
+      <div class="sp-ribbon-row">🎀 🌟 🎀</div>
+      <div class="sp-title">A Secret Birthday<br>Wish 💖</div>
+      <p class="sp-wish-text" id="spWishText">
+        Sandhiya, you found the secret — and honestly, that's so very <em>you</em>. 🥺✨
+        This little corner of the page was made just for you, with all the love I could pack into a few lines.
+        You are rare. You are wonderful. And today, the whole universe is quietly cheering for you.
+        Happy Birthday, my favourite person. 🎂🎀
+      </p>
+      <div class="sp-divider"></div>
+    </div>
+
+    <!-- SECRET PHOTO GALLERY -->
+    <div class="sp-gallery-wrap">
+      <div class="sp-gallery-label">
+        <div class="section-label">🎀 secret memories 🎀</div>
+        <div class="section-title">Our Little Gallery 📸</div>
+      </div>
+
+      <!-- Row 1 → Right to Left -->
+      <div class="sp-marquee-section">
+        <div class="sp-marquee-row sp-scroll-r2l">
+          <!-- Card 1 -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
+            <div class="sp-polaroid-caption">always blooming 🌸</div>
+          </div>
+          <!-- Card 2 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
+            <div class="sp-polaroid-caption">pure love 💖</div>
+          </div>
+          <!-- Card 3 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
+            <div class="sp-polaroid-caption">you shine ✨</div>
+          </div>
+          <!-- Card 4 -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
+            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
+          </div>
+          <!-- Card 5 -->
+          <div class="sp-polaroid" style="transform:rotate(-1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
+            <div class="sp-polaroid-caption">rainbow days 🌈</div>
+          </div>
+          <!-- Card 6 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
+            <div class="sp-polaroid-caption">birthday queen 👑</div>
+          </div>
+          <!-- Duplicates for infinite scroll -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
+            <div class="sp-polaroid-caption">always blooming 🌸</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
+            <div class="sp-polaroid-caption">pure love 💖</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
+            <div class="sp-polaroid-caption">you shine ✨</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
+            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
+            <div class="sp-polaroid-caption">rainbow days 🌈</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
+            <div class="sp-polaroid-caption">birthday queen 👑</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 → Left to Right -->
+      <div class="sp-marquee-section">
+        <div class="sp-marquee-row sp-scroll-l2r">
+          <!-- Card 1 -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
+            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
+          </div>
+          <!-- Card 2 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
+            <div class="sp-polaroid-caption">superstar 🌟</div>
+          </div>
+          <!-- Card 3 -->
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
+            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
+          </div>
+          <!-- Card 4 -->
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
+            <div class="sp-polaroid-caption">balloons up 🎈</div>
+          </div>
+          <!-- Card 5 -->
+          <div class="sp-polaroid" style="transform:rotate(1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
+            <div class="sp-polaroid-caption">free spirit 🦋</div>
+          </div>
+          <!-- Card 6 -->
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
+            <div class="sp-polaroid-caption">flourishing 🌿</div>
+          </div>
+          <!-- Duplicates -->
+          <div class="sp-polaroid" style="transform:rotate(3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
+            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
+            <div class="sp-polaroid-caption">superstar 🌟</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
+            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-3deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
+            <div class="sp-polaroid-caption">balloons up 🎈</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(1deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
+            <div class="sp-polaroid-caption">free spirit 🦋</div>
+          </div>
+          <div class="sp-polaroid" style="transform:rotate(-2deg)">
+            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
+            <div class="sp-polaroid-caption">flourishing 🌿</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="sp-footer-note">🎀 This secret page was made with love, just for you 🎀</p>
+    </div>
+  </div><!-- end #secretPage -->
+
+  <!-- LETTER PASSWORD MODAL (@Sandhiya1619) -->
+  <div class="letter-pwd-modal" id="letterPwdModal" aria-hidden="true">
+    <div class="letter-pwd-backdrop" id="letterPwdBackdrop"></div>
+    <div class="letter-pwd-card" id="letterPwdCard">
+      <button class="letter-pwd-close" id="letterPwdCloseBtn" aria-label="Close">✕</button>
+      <div class="letter-pwd-badge">💌 Secret Letters</div>
+      <h3 class="letter-pwd-title">Enter Password to Read</h3>
+      <p class="letter-pwd-sub">These words are written just for you. Enter the secret password to unlock.</p>
+      
+      <form id="letterPwdForm" onsubmit="handleLetterPwdSubmit(event)">
+        <div class="letter-pwd-input-wrap">
+          <input 
+            type="password" 
+            id="letterPwdInput" 
+            class="letter-pwd-input" 
+            placeholder="Enter password..." 
+            autocomplete="off"
+            spellcheck="false"
+            required
+          >
+          <button type="button" class="letter-pwd-toggle" id="letterPwdToggle" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        <div class="letter-pwd-error" id="letterPwdError"></div>
+        <button type="submit" class="letter-pwd-submit">Unlock Letter 🎀</button>
+      </form>
+    </div>
+  </div>
+
 <script>
   // ---- pick a name for this visit ----
   const names = ["Sandhiya", "Kullachi", "Papa", "Thango", "Uyire"];
@@ -2162,7 +2344,7 @@ Once again Hpy B'day thago"></p>
 
   // ---- BIRTHDAY COUNTDOWN TIMER TO 19-09-2026 ----
   const targetDate = new Date("2026-09-19T00:00:00").getTime();
-  const TEST_MODE = false; // Countdown active: button hidden until time reaches 00:00:00:00
+  const TEST_MODE = true; // Test mode active: button revealed for testing
 
   function updateCountdown() {
     const now = new Date().getTime();
@@ -2468,52 +2650,58 @@ Once again Hpy B'day thago"></p>
 
   // ---- LETTER PASSWORD UNLOCK SYSTEM (@Sandhiya1619) ----
   const LETTER_PASSWORD = '@Sandhiya1619';
-  const letterPwdModal = document.getElementById('letterPwdModal');
-  const letterPwdCard = document.getElementById('letterPwdCard');
-  const letterPwdInput = document.getElementById('letterPwdInput');
-  const letterPwdError = document.getElementById('letterPwdError');
-  const letterPwdCloseBtn = document.getElementById('letterPwdCloseBtn');
-  const letterPwdBackdrop = document.getElementById('letterPwdBackdrop');
-  const letterPwdToggle = document.getElementById('letterPwdToggle');
 
   function openLetterPwdModal() {
+    const letterPwdModal = document.getElementById('letterPwdModal');
+    const letterPwdInput = document.getElementById('letterPwdInput');
+    const letterPwdError = document.getElementById('letterPwdError');
     if (letterPwdModal) {
-      letterPwdInput.value = '';
-      letterPwdError.textContent = '';
+      if (letterPwdInput) letterPwdInput.value = '';
+      if (letterPwdError) letterPwdError.textContent = '';
+      letterPwdModal.style.display = 'flex';
       letterPwdModal.classList.add('open');
-      setTimeout(() => letterPwdInput.focus(), 150);
+      letterPwdModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        if (letterPwdInput) letterPwdInput.focus();
+      }, 100);
     }
   }
+  window.openLetterPwdModal = openLetterPwdModal;
 
   function closeLetterPwdModal() {
+    const letterPwdModal = document.getElementById('letterPwdModal');
+    const letterPwdError = document.getElementById('letterPwdError');
     if (letterPwdModal) {
       letterPwdModal.classList.remove('open');
-      letterPwdError.textContent = '';
+      letterPwdModal.style.display = 'none';
+      letterPwdModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (letterPwdError) letterPwdError.textContent = '';
     }
   }
-
-  if (letterPwdCloseBtn) letterPwdCloseBtn.addEventListener('click', closeLetterPwdModal);
-  if (letterPwdBackdrop) letterPwdBackdrop.addEventListener('click', closeLetterPwdModal);
-
-  if (letterPwdToggle) {
-    letterPwdToggle.addEventListener('click', () => {
-      const isPwd = letterPwdInput.getAttribute('type') === 'password';
-      letterPwdInput.setAttribute('type', isPwd ? 'text' : 'password');
-      letterPwdToggle.textContent = isPwd ? '🙈' : '👁️';
-    });
-  }
+  window.closeLetterPwdModal = closeLetterPwdModal;
 
   function handleLetterPwdSubmit(e) {
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const letterPwdInput = document.getElementById('letterPwdInput');
+    const letterPwdCard = document.getElementById('letterPwdCard');
+    const letterPwdError = document.getElementById('letterPwdError');
+    if (!letterPwdInput) return;
+
     const entered = letterPwdInput.value.trim();
-    if (entered === LETTER_PASSWORD) {
-      // Correct password! Unblur letters permanently for this session
+    const clean = entered.toLowerCase();
+
+    // Supports @Sandhiya1619, Sandhiya1619 (case-insensitive)
+    if (clean === '@sandhiya1619' || clean === 'sandhiya1619') {
       sessionStorage.setItem('letters_unlocked', 'true');
       unlockLetters();
       closeLetterPwdModal();
     } else {
-      // Incorrect password! Keep blurred
-      letterPwdError.textContent = 'Incorrect password. Try again! 🥺';
+      if (letterPwdError) letterPwdError.textContent = 'Incorrect password. Try again! 🥺';
       if (letterPwdCard) {
         letterPwdCard.classList.add('shake');
         setTimeout(() => letterPwdCard.classList.remove('shake'), 500);
@@ -2521,12 +2709,40 @@ Once again Hpy B'day thago"></p>
       letterPwdInput.select();
     }
   }
+  window.handleLetterPwdSubmit = handleLetterPwdSubmit;
 
   function unlockLetters() {
     document.querySelectorAll('.letter').forEach(l => {
       l.classList.remove('locked');
       l.classList.add('unlocked');
     });
+  }
+
+  // Bind close buttons
+  const letterPwdCloseBtn = document.getElementById('letterPwdCloseBtn');
+  if (letterPwdCloseBtn) letterPwdCloseBtn.addEventListener('click', closeLetterPwdModal);
+
+  const letterPwdBackdrop = document.getElementById('letterPwdBackdrop');
+  if (letterPwdBackdrop) letterPwdBackdrop.addEventListener('click', closeLetterPwdModal);
+
+  // Bind toggle password view
+  const letterPwdToggle = document.getElementById('letterPwdToggle');
+  if (letterPwdToggle) {
+    letterPwdToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const letterPwdInput = document.getElementById('letterPwdInput');
+      if (letterPwdInput) {
+        const isPwd = letterPwdInput.getAttribute('type') === 'password';
+        letterPwdInput.setAttribute('type', isPwd ? 'text' : 'password');
+        letterPwdToggle.textContent = isPwd ? '🙈' : '👁️';
+      }
+    });
+  }
+
+  // Bind form submit
+  const letterPwdForm = document.getElementById('letterPwdForm');
+  if (letterPwdForm) {
+    letterPwdForm.addEventListener('submit', handleLetterPwdSubmit);
   }
 
   // Click handler on letters to open password modal if locked
@@ -2541,6 +2757,7 @@ Once again Hpy B'day thago"></p>
 
   // Global key listener for letter modal Escape
   window.addEventListener('keydown', (e) => {
+    const letterPwdModal = document.getElementById('letterPwdModal');
     if (letterPwdModal && letterPwdModal.classList.contains('open')) {
       if (e.key === 'Escape') closeLetterPwdModal();
     }
@@ -2551,187 +2768,5 @@ Once again Hpy B'day thago"></p>
     unlockLetters();
   }
 </script>
-
-  <!-- CLOSE BUTTON (floats above secret page) -->
-  <button class="sp-close-btn" id="spCloseBtn" title="Close">✕</button>
-
-  <!-- SECRET PAGE: slides up when locker is unlocked -->
-  <div id="secretPage">
-
-    <!-- HERO WISH -->
-    <div class="sp-hero">
-      <div class="sp-eyebrow">🔓 just for you 🔓</div>
-      <div class="sp-ribbon-row">🎀 🌟 🎀</div>
-      <div class="sp-title">A Secret Birthday<br>Wish 💖</div>
-      <p class="sp-wish-text" id="spWishText">
-        Sandhiya, you found the secret — and honestly, that's so very <em>you</em>. 🥺✨
-        This little corner of the page was made just for you, with all the love I could pack into a few lines.
-        You are rare. You are wonderful. And today, the whole universe is quietly cheering for you.
-        Happy Birthday, my favourite person. 🎂🎀
-      </p>
-      <div class="sp-divider"></div>
-    </div>
-
-    <!-- SECRET PHOTO GALLERY -->
-    <div class="sp-gallery-wrap">
-      <div class="sp-gallery-label">
-        <div class="section-label">🎀 secret memories 🎀</div>
-        <div class="section-title">Our Little Gallery 📸</div>
-      </div>
-
-      <!-- Row 1 → Right to Left -->
-      <div class="sp-marquee-section">
-        <div class="sp-marquee-row sp-scroll-r2l">
-          <!-- Card 1 -->
-          <div class="sp-polaroid" style="transform:rotate(-3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
-            <div class="sp-polaroid-caption">always blooming 🌸</div>
-          </div>
-          <!-- Card 2 -->
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
-            <div class="sp-polaroid-caption">pure love 💖</div>
-          </div>
-          <!-- Card 3 -->
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
-            <div class="sp-polaroid-caption">you shine ✨</div>
-          </div>
-          <!-- Card 4 -->
-          <div class="sp-polaroid" style="transform:rotate(3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
-            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
-          </div>
-          <!-- Card 5 -->
-          <div class="sp-polaroid" style="transform:rotate(-1deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
-            <div class="sp-polaroid-caption">rainbow days 🌈</div>
-          </div>
-          <!-- Card 6 -->
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
-            <div class="sp-polaroid-caption">birthday queen 👑</div>
-          </div>
-          <!-- Duplicates for infinite scroll -->
-          <div class="sp-polaroid" style="transform:rotate(-3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#FFC93C);">🌸</div>
-            <div class="sp-polaroid-caption">always blooming 🌸</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF6B8B,#FF5D5D);">💖</div>
-            <div class="sp-polaroid-caption">pure love 💖</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#F5A623);">✨</div>
-            <div class="sp-polaroid-caption">you shine ✨</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF7A45,#FF5D5D);">🎂</div>
-            <div class="sp-polaroid-caption">cake o'clock 🎂</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(-1deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#56CCF2);">🌈</div>
-            <div class="sp-polaroid-caption">rainbow days 🌈</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFD700,#FF7A45);">👑</div>
-            <div class="sp-polaroid-caption">birthday queen 👑</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 2 → Left to Right -->
-      <div class="sp-marquee-section">
-        <div class="sp-marquee-row sp-scroll-l2r">
-          <!-- Card 1 -->
-          <div class="sp-polaroid" style="transform:rotate(3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
-            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
-          </div>
-          <!-- Card 2 -->
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
-            <div class="sp-polaroid-caption">superstar 🌟</div>
-          </div>
-          <!-- Card 3 -->
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
-            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
-          </div>
-          <!-- Card 4 -->
-          <div class="sp-polaroid" style="transform:rotate(-3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
-            <div class="sp-polaroid-caption">balloons up 🎈</div>
-          </div>
-          <!-- Card 5 -->
-          <div class="sp-polaroid" style="transform:rotate(1deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
-            <div class="sp-polaroid-caption">free spirit 🦋</div>
-          </div>
-          <!-- Card 6 -->
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
-            <div class="sp-polaroid-caption">flourishing 🌿</div>
-          </div>
-          <!-- Duplicates -->
-          <div class="sp-polaroid" style="transform:rotate(3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FF5D5D,#FF6B8B);">🎀</div>
-            <div class="sp-polaroid-caption">ribbon heart 🎀</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFE28A,#F5A623);">🌟</div>
-            <div class="sp-polaroid-caption">superstar 🌟</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#C3A6FF,#9B59B6);">🌙</div>
-            <div class="sp-polaroid-caption">moonlit wishes 🌙</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(-3deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFC93C,#FF7A45);">🎈</div>
-            <div class="sp-polaroid-caption">balloons up 🎈</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(1deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#FFDAB9,#FF6B8B);">🦋</div>
-            <div class="sp-polaroid-caption">free spirit 🦋</div>
-          </div>
-          <div class="sp-polaroid" style="transform:rotate(-2deg)">
-            <div class="sp-polaroid-frame" style="background:linear-gradient(135deg,#A8E6CF,#3CB371);">🌿</div>
-            <div class="sp-polaroid-caption">flourishing 🌿</div>
-          </div>
-        </div>
-      </div>
-
-      <p class="sp-footer-note">🎀 This secret page was made with love, just for you 🎀</p>
-    </div>
-  </div><!-- end #secretPage -->
-
-  <!-- LETTER PASSWORD MODAL (@Sandhiya1619) -->
-  <div class="letter-pwd-modal" id="letterPwdModal" aria-hidden="true">
-    <div class="letter-pwd-backdrop" id="letterPwdBackdrop"></div>
-    <div class="letter-pwd-card" id="letterPwdCard">
-      <button class="letter-pwd-close" id="letterPwdCloseBtn" aria-label="Close">✕</button>
-      <div class="letter-pwd-badge">💌 Secret Letters</div>
-      <h3 class="letter-pwd-title">Enter Password to Read</h3>
-      <p class="letter-pwd-sub">These words are written just for you. Enter the secret password to unlock.</p>
-      
-      <form id="letterPwdForm" onsubmit="handleLetterPwdSubmit(event)">
-        <div class="letter-pwd-input-wrap">
-          <input 
-            type="password" 
-            id="letterPwdInput" 
-            class="letter-pwd-input" 
-            placeholder="Enter password..." 
-            autocomplete="off"
-            spellcheck="false"
-            required
-          >
-          <button type="button" class="letter-pwd-toggle" id="letterPwdToggle" aria-label="Toggle password visibility">👁️</button>
-        </div>
-        <div class="letter-pwd-error" id="letterPwdError"></div>
-        <button type="submit" class="letter-pwd-submit">Unlock Letter 🎀</button>
-      </form>
-    </div>
-  </div>
-
 </body>
 </html>
