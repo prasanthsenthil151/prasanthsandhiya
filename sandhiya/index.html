@@ -516,13 +516,6 @@
 </style>
 </head>
 <body>
-<button class="lock-btn" onclick="logout()" aria-label="Lock and Exit"><span>🔒</span> <span>Lock</span></button>
-<script>
-function logout() {
-  fetch('/api/logout', { method: 'POST' }).then(() => window.location.href = '/');
-}
-</script>
-
 
 <div id="scene">
   <svg id="path-svg"><path id="travel-path" d=""/></svg>
