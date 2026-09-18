@@ -69,6 +69,14 @@
   #openBtn:hover{ transform: translateY(-3px) scale(1.03); box-shadow:0 14px 30px rgba(74,52,5,0.4); }
   #openBtn:focus-visible{ outline:3px solid var(--cocoa); outline-offset:4px; }
   #openBtn:active{ transform: translateY(0) scale(0.98); }
+  @keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    60% { transform: scale(1.04); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .btn-revealed {
+    animation: popIn 0.6s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
 
   /* ---------- MAIN STORY ---------- */
   #story{ position:relative; }
@@ -226,10 +234,230 @@
     font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase;
     color:var(--coral); font-weight:600; margin-bottom:0.8rem;
   }
-  .letter-body{ font-size:1.05rem; line-height:1.75; color:#4a3707; }
+  .letter-body{ font-size:1.05rem; line-height:1.75; color:#4a3707; white-space:pre-line; }
   .letter-sign{
     margin-top:1.2rem; font-family:'Fraunces', serif; font-style:italic;
     font-size:1.1rem; color:var(--cocoa);
+  }
+
+  /* ---------- BLURRED & LOCKED LETTERS ---------- */
+  .letter.locked {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .letter.locked .letter-content-wrap {
+    filter: blur(8px);
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+    transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .letter.unlocked .letter-content-wrap {
+    filter: blur(0px);
+    user-select: text;
+    pointer-events: auto;
+  }
+  .letter .letter-lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 251, 240, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: 18px;
+    z-index: 5;
+    transition: all 0.35s ease;
+  }
+  .letter.locked:hover .letter-lock-overlay {
+    background: rgba(255, 251, 240, 0.65);
+  }
+  .letter.locked:hover .lock-icon {
+    transform: scale(1.15) rotate(-5deg);
+  }
+  .letter.unlocked .letter-lock-overlay {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .lock-icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 4px 10px rgba(74, 52, 5, 0.25));
+    transition: transform 0.25s ease;
+  }
+  .lock-text {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cocoa);
+    background: #FFF;
+    padding: 7px 18px;
+    border-radius: 20px;
+    box-shadow: 0 4px 14px rgba(74, 52, 5, 0.12);
+    border: 1px solid rgba(245, 166, 35, 0.35);
+  }
+
+  /* ---------- LETTER PASSWORD MODAL ---------- */
+  .letter-pwd-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .letter-pwd-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .letter-pwd-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(40, 26, 5, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .letter-pwd-card {
+    position: relative;
+    background: #FFFDF9;
+    border: 2px solid rgba(245, 166, 35, 0.35);
+    border-radius: 24px;
+    padding: 32px 28px 28px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(40, 26, 5, 0.3);
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+  }
+  .letter-pwd-modal.open .letter-pwd-card {
+    transform: translateY(0) scale(1);
+  }
+  .letter-pwd-card.shake {
+    animation: pwdShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  @keyframes pwdShake {
+    10%, 90% { transform: translate3d(-3px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+    40%, 60% { transform: translate3d(6px, 0, 0); }
+  }
+  .letter-pwd-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: rgba(74, 52, 5, 0.06);
+    border: none;
+    color: #8c6d32;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .letter-pwd-close:hover {
+    background: rgba(74, 52, 5, 0.14);
+    color: var(--cocoa);
+  }
+  .letter-pwd-badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(255, 122, 69, 0.1);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .letter-pwd-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.65rem;
+    color: var(--cocoa);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .letter-pwd-sub {
+    font-size: 0.9rem;
+    color: #7a6333;
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+  .letter-pwd-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .letter-pwd-input {
+    width: 100%;
+    padding: 13px 44px 13px 16px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    border: 2px solid rgba(245, 166, 35, 0.4);
+    border-radius: 14px;
+    background: #FFF;
+    color: var(--cocoa);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .letter-pwd-input:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.18);
+  }
+  .letter-pwd-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    opacity: 0.6;
+    padding: 4px;
+    transition: opacity 0.2s;
+  }
+  .letter-pwd-toggle:hover {
+    opacity: 1;
+  }
+  .letter-pwd-error {
+    font-size: 0.85rem;
+    color: #d93025;
+    font-weight: 500;
+    min-height: 22px;
+    margin-bottom: 12px;
+    text-align: left;
+    padding-left: 4px;
+  }
+  .letter-pwd-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--amber) 0%, var(--coral) 100%);
+    border: none;
+    border-radius: 14px;
+    color: #FFF;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(255, 122, 69, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .letter-pwd-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 122, 69, 0.45);
+  }
+  .letter-pwd-submit:active {
+    transform: translateY(0);
   }
 
   /* ---------- DUAL ROW AUTO-SCROLLING PHOTO MARQUEE ---------- */
@@ -837,7 +1065,32 @@
       <div class="eyebrow">🎀 19th September 2026 🎀</div>
       <h1 class="gate-title">There's a moment<br>waiting for you</h1>
       <p class="gate-sub">Somewhere warm, somewhere yellow, made just for one person today.</p>
-      <button id="openBtn">Click here for the moment 🎀</button>
+
+      <!-- COUNTDOWN TIMER (replaces button until time reaches 0) -->
+      <div class="countdown-container" id="gateCountdown" style="margin-top: 2.2rem;">
+        <div class="countdown-unit">
+          <span class="cd-num" id="gateCdDays">00</span>
+          <span class="cd-label">Days</span>
+        </div>
+        <div class="cd-colon">:</div>
+        <div class="countdown-unit">
+          <span class="cd-num" id="gateCdHours">00</span>
+          <span class="cd-label">Hours</span>
+        </div>
+        <div class="cd-colon">:</div>
+        <div class="countdown-unit">
+          <span class="cd-num" id="gateCdMins">00</span>
+          <span class="cd-label">Mins</span>
+        </div>
+        <div class="cd-colon">:</div>
+        <div class="countdown-unit">
+          <span class="cd-num" id="gateCdSecs">00</span>
+          <span class="cd-label">Secs</span>
+        </div>
+      </div>
+
+      <!-- BUTTON: hidden until countdown reaches 0 -->
+      <button id="openBtn" style="margin-top: 1.5rem; display: none;">Click here for the moment 🎀</button>
     </div>
   </div>
 
@@ -851,32 +1104,10 @@
       <h1 class="hero-name">Happy Birthday 🎀<span id="nameSlot">Sandhiya</span></h1>
       <p class="hero-line">Every year the world gets a little luckier, because it still has you in it.</p>
       
-      <!-- BIRTHDAY DATE & COUNTDOWN TIMER -->
+      <!-- BIRTHDAY DATE -->
       <div class="date-badge">
         <span>🗓️</span>
         <span>Special Date: 19th September 2026</span>
-      </div>
-
-      <div class="countdown-container" id="countdownBox">
-        <div class="countdown-unit">
-          <span class="cd-num" id="cdDays">00</span>
-          <span class="cd-label">Days</span>
-        </div>
-        <div class="cd-colon">:</div>
-        <div class="countdown-unit">
-          <span class="cd-num" id="cdHours">00</span>
-          <span class="cd-label">Hours</span>
-        </div>
-        <div class="cd-colon">:</div>
-        <div class="countdown-unit">
-          <span class="cd-num" id="cdMins">00</span>
-          <span class="cd-label">Mins</span>
-        </div>
-        <div class="cd-colon">:</div>
-        <div class="countdown-unit">
-          <span class="cd-num" id="cdSecs">00</span>
-          <span class="cd-label">Secs</span>
-        </div>
       </div>
 
       <div class="scroll-cue">
@@ -889,22 +1120,34 @@
       <div class="section-label">🎀 for you 🎀</div>
       <div class="section-title">A few little letters</div>
 
-      <article class="letter">
+      <article class="letter locked" id="letter1">
         <div class="letter-tag">Letter one 🎀</div>
-        <p class="letter-body" data-template="Dear {name}, some people fill a room the second they walk in — you've always been one of them. Today isn't just about cake and candles, it's a small pause to say the world really is better with you laughing in it."></p>
-        <div class="letter-sign">— with all my heart</div>
+        <div class="letter-content-wrap">
+          <p class="letter-body" data-template="Happy birthday, Kullachi. ❤️
+
+It’s your birthday, and it’s a very special day for me too.
+
+Intha birthday Naa en life la maraka matten First time unta pesama irukka birthday romba kastama iruku naa pesala nu ni sogama irukatha be happy always , but in tha life la enakku romba pudicha orey person ni mattum tha unna pudicha alavukku enna yaaraium pudikathu athu amma um tha ur very special person to me , thanks for the wonderfull moments my memories"></p>
+          <div class="letter-sign">— with all my heart</div>
+        </div>
+        <div class="letter-lock-overlay">
+          <span class="lock-icon">🔒</span>
+          <span class="lock-text">Tap to unlock letter 💌</span>
+        </div>
       </article>
 
-      <article class="letter">
+      <article class="letter locked" id="letter2">
         <div class="letter-tag">Letter two 🎀</div>
-        <p class="letter-body" data-template="{name}, I hope this year hands you every quiet win you've been working for, and a few loud, joyful surprises you never saw coming. You deserve softness, good food, and people who show up for you the way you show up for everyone else."></p>
-        <div class="letter-sign">— always in your corner</div>
-      </article>
+        <div class="letter-content-wrap">
+          <p class="letter-body" data-template="Papa , enaikum aluvatha unakku ethavathu kastam na yosikama enta va , neeye thappu pannalum Naa un pakkam tha irupen ,naa un kuda irunthalum seri ilainalum seri unta naa kekarathu la onnu tha don't be cry 🥺💗
 
-      <article class="letter">
-        <div class="letter-tag">Letter three 🎀</div>
-        <p class="letter-body" data-template="Here's to another year of you, {name} — a little older, a lot loved, and still exactly the kind of person people are lucky to know. Happy birthday. Go enjoy every last minute of today."></p>
-        <div class="letter-sign">— yours, today and always</div>
+Once again Hpy B'day thago"></p>
+          <div class="letter-sign">— always in your corner</div>
+        </div>
+        <div class="letter-lock-overlay">
+          <span class="lock-icon">🔒</span>
+          <span class="lock-text">Tap to unlock letter 💌</span>
+        </div>
       </article>
     </section>
 
@@ -1676,9 +1919,11 @@
           <button class="pin-modal-close" id="pinModalClose">✖</button>
           <div class="locker-icon-badge" id="lockerBadge" style="margin:0 auto 0.8rem;">🔒</div>
           <div class="locker-title">Secret Locker 🎀</div>
-          <p class="locker-subtitle">Enter 4-digit passcode to unlock</p>
+          <p class="locker-subtitle">Enter passcode to unlock</p>
 
           <div class="pin-dots" id="pinDots">
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
             <span class="pin-dot"></span>
             <span class="pin-dot"></span>
             <span class="pin-dot"></span>
@@ -1917,15 +2162,30 @@
 
   // ---- BIRTHDAY COUNTDOWN TIMER TO 19-09-2026 ----
   const targetDate = new Date("2026-09-19T00:00:00").getTime();
+  const TEST_MODE = false; // Countdown active: button hidden until time reaches 00:00:00:00
 
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = targetDate - now;
 
-    if (distance < 0) {
-      const box = document.getElementById('countdownBox');
-      if (box) box.innerHTML = '<div style="font-size:1.2rem; font-weight:700; color:var(--cocoa);">🎉 Happy Birthday Sandhiya! 🎂✨</div>';
+    const gateCountdown = document.getElementById('gateCountdown');
+    const openBtn = document.getElementById('openBtn');
+
+    if (distance <= 0) {
+      // Countdown reached 0: Hide countdown, reveal button
+      if (gateCountdown) gateCountdown.style.display = 'none';
+      if (openBtn) {
+        openBtn.style.display = 'inline-block';
+        openBtn.classList.add('btn-revealed');
+      }
+
       return;
+    }
+
+    // Countdown active
+    if (gateCountdown) gateCountdown.style.display = 'flex';
+    if (openBtn) {
+      openBtn.style.display = TEST_MODE ? 'inline-block' : 'none';
     }
 
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -1933,15 +2193,17 @@
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const cdDays = document.getElementById('cdDays');
-    const cdHours = document.getElementById('cdHours');
-    const cdMins = document.getElementById('cdMins');
-    const cdSecs = document.getElementById('cdSecs');
+    const pad = (n) => String(n).padStart(2, '0');
 
-    if (cdDays) cdDays.textContent = String(days).padStart(2, '0');
-    if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
-    if (cdMins) cdMins.textContent = String(minutes).padStart(2, '0');
-    if (cdSecs) cdSecs.textContent = String(seconds).padStart(2, '0');
+    // Update Gate countdown units
+    const gDays = document.getElementById('gateCdDays');
+    const gHours = document.getElementById('gateCdHours');
+    const gMins = document.getElementById('gateCdMins');
+    const gSecs = document.getElementById('gateCdSecs');
+    if (gDays) gDays.textContent = pad(days);
+    if (gHours) gHours.textContent = pad(hours);
+    if (gMins) gMins.textContent = pad(minutes);
+    if (gSecs) gSecs.textContent = pad(seconds);
   }
 
   setInterval(updateCountdown, 1000);
@@ -2037,7 +2299,7 @@
     heroObserver.observe(heroSec);
   }
 
-  // ---- SECRET LOCKER LOGIC (PASSWORD: 1619) ----
+  // ---- SECRET LOCKER LOGIC (PASSWORD: 151333) ----
     let currentPin = "";
   const pinDots = document.querySelectorAll('#pinDots .pin-dot');
   const secretLockerCard = document.getElementById('secretLocker'); // the keypad div
@@ -2101,11 +2363,11 @@
     }
 
     if (/^[0-9]$/.test(key)) {
-      if (currentPin.length < 4) {
+      if (currentPin.length < 6) {
         currentPin += key;
         updatePinDots();
 
-        if (currentPin.length === 4) {
+        if (currentPin.length === 6) {
           fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2203,6 +2465,91 @@
     entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.2 });
   document.querySelectorAll('.letter').forEach(el => io.observe(el));
+
+  // ---- LETTER PASSWORD UNLOCK SYSTEM (@Sandhiya1619) ----
+  const LETTER_PASSWORD = '@Sandhiya1619';
+  const letterPwdModal = document.getElementById('letterPwdModal');
+  const letterPwdCard = document.getElementById('letterPwdCard');
+  const letterPwdInput = document.getElementById('letterPwdInput');
+  const letterPwdError = document.getElementById('letterPwdError');
+  const letterPwdCloseBtn = document.getElementById('letterPwdCloseBtn');
+  const letterPwdBackdrop = document.getElementById('letterPwdBackdrop');
+  const letterPwdToggle = document.getElementById('letterPwdToggle');
+
+  function openLetterPwdModal() {
+    if (letterPwdModal) {
+      letterPwdInput.value = '';
+      letterPwdError.textContent = '';
+      letterPwdModal.classList.add('open');
+      setTimeout(() => letterPwdInput.focus(), 150);
+    }
+  }
+
+  function closeLetterPwdModal() {
+    if (letterPwdModal) {
+      letterPwdModal.classList.remove('open');
+      letterPwdError.textContent = '';
+    }
+  }
+
+  if (letterPwdCloseBtn) letterPwdCloseBtn.addEventListener('click', closeLetterPwdModal);
+  if (letterPwdBackdrop) letterPwdBackdrop.addEventListener('click', closeLetterPwdModal);
+
+  if (letterPwdToggle) {
+    letterPwdToggle.addEventListener('click', () => {
+      const isPwd = letterPwdInput.getAttribute('type') === 'password';
+      letterPwdInput.setAttribute('type', isPwd ? 'text' : 'password');
+      letterPwdToggle.textContent = isPwd ? '🙈' : '👁️';
+    });
+  }
+
+  function handleLetterPwdSubmit(e) {
+    if (e) e.preventDefault();
+    const entered = letterPwdInput.value.trim();
+    if (entered === LETTER_PASSWORD) {
+      // Correct password! Unblur letters permanently for this session
+      sessionStorage.setItem('letters_unlocked', 'true');
+      unlockLetters();
+      closeLetterPwdModal();
+    } else {
+      // Incorrect password! Keep blurred
+      letterPwdError.textContent = 'Incorrect password. Try again! 🥺';
+      if (letterPwdCard) {
+        letterPwdCard.classList.add('shake');
+        setTimeout(() => letterPwdCard.classList.remove('shake'), 500);
+      }
+      letterPwdInput.select();
+    }
+  }
+
+  function unlockLetters() {
+    document.querySelectorAll('.letter').forEach(l => {
+      l.classList.remove('locked');
+      l.classList.add('unlocked');
+    });
+  }
+
+  // Click handler on letters to open password modal if locked
+  document.querySelectorAll('.letter').forEach(l => {
+    l.addEventListener('click', (e) => {
+      if (l.classList.contains('locked')) {
+        e.preventDefault();
+        openLetterPwdModal();
+      }
+    });
+  });
+
+  // Global key listener for letter modal Escape
+  window.addEventListener('keydown', (e) => {
+    if (letterPwdModal && letterPwdModal.classList.contains('open')) {
+      if (e.key === 'Escape') closeLetterPwdModal();
+    }
+  });
+
+  // Restore unlocked state if already authenticated in this session
+  if (sessionStorage.getItem('letters_unlocked') === 'true') {
+    unlockLetters();
+  }
 </script>
 
   <!-- CLOSE BUTTON (floats above secret page) -->
@@ -2356,8 +2703,35 @@
 
       <p class="sp-footer-note">🎀 This secret page was made with love, just for you 🎀</p>
     </div>
-
   </div><!-- end #secretPage -->
+
+  <!-- LETTER PASSWORD MODAL (@Sandhiya1619) -->
+  <div class="letter-pwd-modal" id="letterPwdModal" aria-hidden="true">
+    <div class="letter-pwd-backdrop" id="letterPwdBackdrop"></div>
+    <div class="letter-pwd-card" id="letterPwdCard">
+      <button class="letter-pwd-close" id="letterPwdCloseBtn" aria-label="Close">✕</button>
+      <div class="letter-pwd-badge">💌 Secret Letters</div>
+      <h3 class="letter-pwd-title">Enter Password to Read</h3>
+      <p class="letter-pwd-sub">These words are written just for you. Enter the secret password to unlock.</p>
+      
+      <form id="letterPwdForm" onsubmit="handleLetterPwdSubmit(event)">
+        <div class="letter-pwd-input-wrap">
+          <input 
+            type="password" 
+            id="letterPwdInput" 
+            class="letter-pwd-input" 
+            placeholder="Enter password..." 
+            autocomplete="off"
+            spellcheck="false"
+            required
+          >
+          <button type="button" class="letter-pwd-toggle" id="letterPwdToggle" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        <div class="letter-pwd-error" id="letterPwdError"></div>
+        <button type="submit" class="letter-pwd-submit">Unlock Letter 🎀</button>
+      </form>
+    </div>
+  </div>
 
 </body>
 </html>

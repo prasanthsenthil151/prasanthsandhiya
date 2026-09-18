@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Journey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Caveat:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 
   *{ box-sizing:border-box; }
 
-  html{ scroll-behavior:smooth; }
+  html{ scroll-behavior:smooth; overflow-x:hidden; }
 
   body{
     margin:0; padding:0;
@@ -34,14 +34,14 @@
     color:var(--text);
     font-family:'Jost', sans-serif;
     position:relative;
-    overflow-x:auto; /* Allow panning/scrolling right */
+    overflow-x:hidden;
   }
 
   #scene{
     position:relative;
     width:100%;
-    min-width:800px; /* Force minimum width to maintain map layout on mobile */
-    /* height set by JS based on number of stops */
+    max-width:100vw;
+    overflow-x:hidden;
   }
 
   /* ---------- stars ---------- */
@@ -264,7 +264,7 @@
 
   .polaroid-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap:18px;
   }
   .polaroid{
@@ -274,7 +274,8 @@
     transform:rotate(var(--tilt));
     box-shadow:0 10px 24px rgba(0,0,0,0.35);
     transition:transform 0.25s ease;
-  }
+    cursor:pointer;
+}
   .polaroid:hover{ transform:rotate(0deg) translateY(-3px); }
   .polaroid .photo{
     width:100%;
@@ -312,7 +313,7 @@
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:12vh 24px;
+    padding:8vh 24px 10vh;
     z-index:6;
     opacity:0;
     transform:translateY(18px);
@@ -350,17 +351,172 @@
     margin:0;
   }
 
-  @media (max-width:640px){
-    .caption{ max-width:150px; }
-    .caption .label{ font-size:1.1rem; }
-    .album{ padding:28px 20px 22px; }
-    .scroll-hint{ font-size:1rem; }
-    .closing{ padding:10vh 20px; }
+  
+  /* Lock button */
+  .lock-btn{
+    position:fixed;
+    top:max(14px, env(safe-area-inset-top, 14px));
+    right:max(14px, env(safe-area-inset-right, 14px));
+    z-index:9999;
+    padding:8px 16px;
+    background:rgba(15,18,48,0.82);
+    border:1px solid rgba(232,183,78,0.45);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-radius:24px;
+    color:var(--gold-soft);
+    font-family:'Jost', sans-serif;
+    font-size:0.85rem;
+    font-weight:500;
+    cursor:pointer;
+    box-shadow:0 4px 18px rgba(0,0,0,0.4);
+    transition:all 0.25s ease;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .lock-btn:hover, .lock-btn:active{
+    background:rgba(232,183,78,0.22);
+    border-color:var(--gold);
+    transform:scale(1.04);
+  }
+
+  
+  
+  /* Fullscreen Image Lightbox */
+  .image-lightbox{
+    position:fixed; inset:0;
+    background:rgba(5,6,15,0.96);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    z-index:999999;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.28s ease;
+    padding:16px;
+  }
+  .image-lightbox.open{
+    opacity:1; pointer-events:auto;
+  }
+  .image-lightbox-card{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    max-width:96vw;
+    max-height:86vh;
+    position:relative;
+  }
+  .image-lightbox img{
+    max-width:92vw;
+    max-height:78vh;
+    object-fit:contain;
+    border-radius:8px;
+    box-shadow:0 14px 45px rgba(0,0,0,0.85), 0 0 0 1px rgba(232,183,78,0.25);
+  }
+  .image-lightbox-cap{
+    margin-top:10px;
+    font-family:'Caveat', cursive;
+    font-size:1.35rem;
+    color:var(--gold-soft);
+    text-align:center;
+    max-width:85vw;
+  }
+  .image-lightbox-close{
+    position:absolute;
+    top:max(16px, env(safe-area-inset-top, 16px));
+    right:max(16px, env(safe-area-inset-right, 16px));
+    background:rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.35);
+    color:#fff;
+    width:44px; height:44px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem;
+    cursor:pointer;
+    line-height:1;
+    z-index:10;
+    transition:all 0.2s ease;
+  }
+  .image-lightbox-close:hover, .image-lightbox-close:active{
+    background:rgba(255,255,255,0.35);
+    transform:scale(1.08);
+  }
+  .image-lightbox-hint{
+    margin-top:8px;
+    font-size:0.75rem;
+    color:rgba(255,255,255,0.45);
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:768px){
+    .lock-btn{ padding:6px 12px; font-size:0.78rem; }
+    .caption{ max-width:130px; margin-top:6px; }
+    .caption .label{ font-size:1.05rem; }
+    .caption .intro-eyebrow{ font-size:1.15rem; }
+    .caption .intro-heading{ font-size:1.2rem; max-width:160px; }
+    .planet-btn{ transform:scale(0.82); }
+    .planet-btn:active, .planet-btn:hover{ transform:scale(0.88); }
+    .moon-stop .planet-btn{ transform:scale(0.82); }
+    .moon-stop .caption .label{ font-size:1.25rem; }
+    .overlay{ padding:12px; }
+    .album{ padding:22px 14px 20px; max-height:88vh; width:100%; max-width:440px; }
+    .album h2{ font-size:1.55rem; margin-bottom:4px; }
+    .album .stop-note{ font-size:1.15rem; }
+    .album .desc{ font-size:0.86rem; margin-bottom:14px; line-height:1.5; }
+    /* Two images in a row on mobile - compact small size */
+    .polaroid-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .polaroid{
+      padding: 8px 8px 12px;
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      cursor: pointer;
+    }
+    .polaroid:active{
+      transform: scale(0.96);
+    }
+    .polaroid .photo{
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 2px;
+    }
+    .polaroid .cap{
+      font-size: 0.92rem;
+      margin-top: 6px;
+      line-height: 1.2;
+    }
+    .polaroid .date{
+      font-size: 0.65rem;
+      margin-top: 1px;
+    }
+    .scroll-hint{ font-size:0.95rem; bottom:3%; }
+    .closing{ padding:6vh 16px 8vh; }
+    .closing h2{ font-size:clamp(1.4rem, 5vw, 1.9rem); line-height:1.3; }
+    .closing p{ font-size:0.88rem; }
+  }
+
+  @media (max-width:380px){
+    .album{ padding:18px 10px 16px; }
+    .polaroid-grid{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .polaroid{ padding: 6px 6px 10px; }
+    .polaroid .cap{ font-size: 0.85rem; }
+    .caption{ max-width:115px; }
+    .caption .label{ font-size:0.95rem; }
+    .planet-btn{ transform:scale(0.72); }
+    .planet-btn:active, .planet-btn:hover{ transform:scale(0.78); }
+    .moon-stop .planet-btn{ transform:scale(0.72); }
   }
 </style>
 </head>
 <body>
-<button onclick="logout()" style="position:fixed; top:20px; right:20px; z-index:9999; padding:8px 12px; background:rgba(255,255,255,0.8); border:none; border-radius:8px; cursor:pointer; font-weight:bold; box-shadow:0 2px 10px rgba(0,0,0,0.1);">Lock 🔒</button>
+<button class="lock-btn" onclick="logout()" aria-label="Lock and Exit"><span>🔒</span> <span>Lock</span></button>
 <script>
 function logout() {
   fetch('/api/logout', { method: 'POST' }).then(() => window.location.href = '/');
@@ -400,100 +556,721 @@ function logout() {
 ========================================================= */
 const journeyData = [
   {
-    id: "start",
-    position: { x: 18, y: 5 },
-    size: 62,
-    bg: "radial-gradient(circle at 34% 28%, #fefaf0, #cfd6e6 45%, #8f97b3 100%)",
-    label: "the beginning",
-    isStart: true,
-    introEyebrow: "a small map of us",
-    introHeading: "Every star along the way led here.",
-    title: "Where it started",
-    note: "chapter one",
-    desc: "Every map needs a first mark. This is ours — before the road knew where it was going.",
-    photos: [
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643030/birthday-wish/i16mr0nzyukryqhokv7i.png", cap: "day one", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643032/birthday-wish/onrwvmoyv9fjuatahxsn.png", cap: "so it begins", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643035/birthday-wish/ypunpppgvkx9kdow3hly.png", cap: "early days", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643041/birthday-wish/ikcidwaxqihe4ez53tao.jpg", cap: "growing closer", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643044/birthday-wish/ksc6tpvdgi2gz1lcsjre.png", cap: "the journey", date: "" }
+    "id": "start",
+    "position": {
+      "x": 18,
+      "y": 4
+    },
+    "size": 62,
+    "bg": "radial-gradient(circle at 34% 28%, #fefaf0, #cfd6e6 45%, #8f97b3 100%)",
+    "label": "the beginning",
+    "isStart": true,
+    "introEyebrow": "a small map of us",
+    "introHeading": "Every star along the way led here.",
+    "title": "Where it started",
+    "note": "chapter one",
+    "desc": "Every map needs a first mark. This is ours — before the road knew where it was going.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643030/birthday-wish/i16mr0nzyukryqhokv7i.png",
+        "cap": "day one",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643032/birthday-wish/onrwvmoyv9fjuatahxsn.png",
+        "cap": "so it begins",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643035/birthday-wish/ypunpppgvkx9kdow3hly.png",
+        "cap": "early days",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643041/birthday-wish/ikcidwaxqihe4ez53tao.jpg",
+        "cap": "growing closer",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643044/birthday-wish/ksc6tpvdgi2gz1lcsjre.png",
+        "cap": "the journey",
+        "date": ""
+      }
     ]
   },
   {
-    id: "comet",
-    position: { x: 74, y: 24 },
-    size: 74,
-    bg: "radial-gradient(circle at 32% 26%, #ffd8a8, #e8834e 48%, #7c331a 100%)",
-    label: "the comet trail",
-    title: "A little adventure",
-    note: "chapter two",
-    desc: "Somewhere between here and there, we got carried away — in the best way.",
-    photos: [
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642155/birthday-wish/mtwnaqxv4mxnawxjebzs.jpg", cap: "on the way", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642158/birthday-wish/wxw1sgbpbgb7h9r9evcm.jpg", cap: "got lost, didn't mind", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642159/birthday-wish/cwhpbzmsd4apibkkknqy.jpg", cap: "that afternoon", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642161/birthday-wish/w3ckwqk7uiwaagsxzbdw.jpg", cap: "memories", date: "" }
+    "id": "comet",
+    "position": {
+      "x": 74,
+      "y": 12
+    },
+    "size": 74,
+    "bg": "radial-gradient(circle at 32% 26%, #ffd8a8, #e8834e 48%, #7c331a 100%)",
+    "label": "first meet",
+    "title": "First Meet",
+    "note": "chapter two",
+    "desc": "Somewhere between here and there, we got carried away — in the best way.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642155/birthday-wish/mtwnaqxv4mxnawxjebzs.jpg",
+        "cap": "on the way",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642158/birthday-wish/wxw1sgbpbgb7h9r9evcm.jpg",
+        "cap": "got lost, didn't mind",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642159/birthday-wish/cwhpbzmsd4apibkkknqy.jpg",
+        "cap": "that afternoon",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789642161/birthday-wish/w3ckwqk7uiwaagsxzbdw.jpg",
+        "cap": "memories",
+        "date": ""
+      }
     ]
   },
   {
-    id: "cave",
-    position: { x: 20, y: 46 },
-    size: 86,
-    bg: "radial-gradient(circle at 24% 62%, rgba(0,0,0,0.28) 7%, transparent 8%), radial-gradient(circle at 66% 32%, rgba(0,0,0,0.22) 5%, transparent 6%), radial-gradient(circle at 48% 75%, rgba(0,0,0,0.2) 6%, transparent 7%), radial-gradient(circle at 30% 24%, #cbbfa8, #7c6b52 52%, #372f22 100%)",
-    label: "the quiet cave",
-    title: "The quiet in between",
-    note: "chapter three",
-    desc: "The slower moments. The ones with no plans, just company.",
-    photos: [
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643614/birthday-wish/xsza5jo92jmcptgvnr4j.jpg", cap: "just talking", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643633/birthday-wish/otqaccr4ei7r7mqoyh9j.jpg", cap: "comfortable silence", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643688/birthday-wish/neno9mqzn34pzazoihle.png", cap: "together", date: "" }
+    "id": "cave",
+    "position": {
+      "x": 20,
+      "y": 20
+    },
+    "size": 86,
+    "bg": "radial-gradient(circle at 24% 62%, rgba(0,0,0,0.28) 7%, transparent 8%), radial-gradient(circle at 66% 32%, rgba(0,0,0,0.22) 5%, transparent 6%), radial-gradient(circle at 48% 75%, rgba(0,0,0,0.2) 6%, transparent 7%), radial-gradient(circle at 30% 24%, #cbbfa8, #7c6b52 52%, #372f22 100%)",
+    "label": "every fights becomes happy",
+    "title": "Every Fights Becomes Happy",
+    "note": "chapter three",
+    "desc": "The slower moments. The ones with no plans, just company.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643614/birthday-wish/xsza5jo92jmcptgvnr4j.jpg",
+        "cap": "just talking",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643633/birthday-wish/otqaccr4ei7r7mqoyh9j.jpg",
+        "cap": "comfortable silence",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789643688/birthday-wish/neno9mqzn34pzazoihle.png",
+        "cap": "together",
+        "date": ""
+      }
     ]
   },
   {
-    id: "planet",
-    position: { x: 76, y: 68 },
-    size: 96,
-    bg: "radial-gradient(circle at 30% 25%, #bdeadb, #4f9c8f 46%, #163d38 100%)",
-    ring: true,
-    label: "the far planet",
-    title: "New ground",
-    note: "chapter four",
-    desc: "A little further than we'd been before, and glad we went.",
-    photos: [
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644723/birthday-wish/gg7xznksrdygioejoulo.png", cap: "new place", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644800/birthday-wish/wfuvym5tsbi7mlgoze1t.png", cap: "worth the trip", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644877/birthday-wish/mi3lc1s2qxmcgbdkue5i.png", cap: "memories", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644922/birthday-wish/k8ao1em7gsfuzebhqfwz.png", cap: "with friends", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644961/birthday-wish/yfh25wmbpupdlcmxefym.png", cap: "again soon?", date: "" }
+    "id": "planet",
+    "position": {
+      "x": 76,
+      "y": 28
+    },
+    "size": 96,
+    "bg": "radial-gradient(circle at 30% 25%, #bdeadb, #4f9c8f 46%, #163d38 100%)",
+    "ring": true,
+    "label": "smile together",
+    "title": "Smile Together",
+    "note": "chapter four",
+    "desc": "A little further than we'd been before, and glad we went.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644723/birthday-wish/gg7xznksrdygioejoulo.png",
+        "cap": "new place",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644800/birthday-wish/wfuvym5tsbi7mlgoze1t.png",
+        "cap": "worth the trip",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644877/birthday-wish/mi3lc1s2qxmcgbdkue5i.png",
+        "cap": "memories",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644922/birthday-wish/k8ao1em7gsfuzebhqfwz.png",
+        "cap": "with friends",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789644961/birthday-wish/yfh25wmbpupdlcmxefym.png",
+        "cap": "again soon?",
+        "date": ""
+      }
     ]
   },
   {
-    id: "moon",
-    position: { x: 80, y: 90 },
-    size: 130,
-    bg: "radial-gradient(circle at 32% 28%, #fbf3d8 0%, #f4d488 40%, #d9a94b 72%, #a97f34 100%)",
-    isMoon: true,
-    label: "here, now",
-    title: "Under this moon",
-    note: "the last stop, so far",
-    desc: "Every road on this little map leads back to this — right here, right now.",
-    photos: [
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646410/birthday-wish/kxammabm4ilomdshb9lz.png", cap: "tonight", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646412/birthday-wish/fjiei64vhdmgs3f8rrfz.jpg", cap: "still here", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646413/birthday-wish/f9mzmru6fdqcoajdezsp.jpg", cap: "always", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646415/birthday-wish/aksppkgvzenq2qoomefm.jpg", cap: "together", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646417/birthday-wish/x25f1ajvrfsqf4v2h33u.jpg", cap: "to be continued", date: "" }
-    ,
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646898/birthday-wish/vjgwlfpnmffqucyo1nll.jpg", cap: "another day", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646900/birthday-wish/rrn9yii8lg8nnybctkka.jpg", cap: "smiles", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646901/birthday-wish/ojtbklsiltivshtljouf.jpg", cap: "memories", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646902/birthday-wish/chmi4ijddi4ezzjjewhl.jpg", cap: "good times", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789646906/birthday-wish/zrclekxoufkt7n2iji07.jpg", cap: "always", date: "" }
-    ,
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789647245/birthday-wish/ejld9n56gtrjj0rpiovl.png", cap: "forever", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789647246/birthday-wish/bru6cdjpvginwtuewdew.jpg", cap: "you and me", date: "" },
-      { img: "https://res.cloudinary.com/oaktnbdl/image/upload/v1789647247/birthday-wish/rqjluew7zihjkrzgxepb.jpg", cap: "the best", date: "" }
+    "id": "nebula",
+    "position": {
+      "x": 22,
+      "y": 36
+    },
+    "size": 88,
+    "bg": "radial-gradient(circle at 32% 28%, #e9d5ff, #a855f7 44%, #581c87 85%, #2e1065 100%)",
+    "label": "match to win",
+    "title": "Match to Win",
+    "note": "chapter five",
+    "desc": "Under skies that felt like magic, where laughing together became our favorite melody.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721779/birthday-wish/eq9a3bvbc0thvj0taptn.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721781/birthday-wish/xhdfklnpjbui5yhfkhms.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721783/birthday-wish/oypygnwpnyeokcyactkk.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721784/birthday-wish/nonlrcudx2kepfrsw7mr.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721786/birthday-wish/yitxvzmplgdyvfvywcv7.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721791/birthday-wish/f0esaqcqhlfvrrjzv10o.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721794/birthday-wish/fjntii3koclsdvrmky2c.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721796/birthday-wish/c1taanb3sbfxplw2mk2m.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721797/birthday-wish/dqp46fi666rflrlalwcc.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721800/birthday-wish/tjsr28bz910pddkzmakg.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721801/birthday-wish/dmhlii4yuv92qwp61sai.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721805/birthday-wish/r6dwvfpb6ztzbggu8olr.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721807/birthday-wish/w2jto4nmz5x3n9a86vim.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721813/birthday-wish/htr6p25seni0lzmuvczi.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "golden-ring",
+    "position": {
+      "x": 75,
+      "y": 44
+    },
+    "size": 94,
+    "bg": "radial-gradient(circle at 35% 25%, #fef3c7, #f59e0b 46%, #92400e 82%, #451a03 100%)",
+    "ring": true,
+    "label": "first out",
+    "title": "First Out",
+    "note": "chapter six",
+    "desc": "Days painted in golden light, every snapshot holding a feeling that never fades away.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789722234/birthday-wish/toywfjlxqwhiou920tqo.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789722235/birthday-wish/ppauhmlolururuanlujn.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789722236/birthday-wish/d6jr6hhmuqhq0qcdaiub.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "azure-sphere",
+    "position": {
+      "x": 24,
+      "y": 52
+    },
+    "size": 90,
+    "bg": "radial-gradient(circle at 30% 25%, #bae6fd, #0284c7 45%, #075985 78%, #082f49 100%)",
+    "label": "second out",
+    "title": "Second Out",
+    "note": "chapter seven",
+    "desc": "The comfort of peaceful silence, knowing you are right beside me through every storm.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721815/birthday-wish/weqsemqdlkyhhzcwsezf.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721816/birthday-wish/cdmpbwupklixnuyi6die.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "rose-planet",
+    "position": {
+      "x": 76,
+      "y": 60
+    },
+    "size": 96,
+    "bg": "radial-gradient(circle at 30% 28%, #ffe4e6, #fb7185 45%, #be123c 80%, #4c0519 100%)",
+    "label": "unforgettable moments",
+    "title": "Unforgettable Moments",
+    "note": "chapter eight",
+    "desc": "Sweet conversations and secret laughs that made the rest of the universe pause.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721819/birthday-wish/llf1r1zh4mpwbn2fypel.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721821/birthday-wish/bdxesnq8pluk6xacnlvo.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721822/birthday-wish/u5bpenpqrxojnqn5v4rt.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721825/birthday-wish/edjty4lp24gm3fjdrygw.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721827/birthday-wish/bwxf3mnny7bdb6iqicfa.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721830/birthday-wish/qgsoqxuzjqdxsennzeez.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721832/birthday-wish/irhlfwc56cndy3jc70ne.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721834/birthday-wish/oim4t75wd6168wug3r5e.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789721836/birthday-wish/m0ib4nly2qxuvzrgdppr.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "aurora",
+    "position": {
+      "x": 26,
+      "y": 68
+    },
+    "size": 92,
+    "bg": "radial-gradient(circle at 34% 26%, #d1fae5, #10b981 44%, #047857 78%, #064e3b 100%)",
+    "ring": true,
+    "label": "walk together",
+    "title": "Walk Together",
+    "note": "chapter nine",
+    "desc": "Every tomorrow looks brighter and every dream feels within reach when we walk together.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727926/birthday-wish/x4xcqnmsxl7iqdfzkdm6.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727929/birthday-wish/ll2q99d8cx0nmz23upji.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727931/birthday-wish/zxawpqem2cgkbuwnqfnf.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727933/birthday-wish/fkjaen8g6cw5zpnju6k4.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727935/birthday-wish/kozljyqxr8azfzrgw770.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "golden-sphere",
+    "position": {
+      "x": 75,
+      "y": 76
+    },
+    "size": 96,
+    "bg": "radial-gradient(circle at 32% 28%, #fbf3d8 0%, #f4d488 40%, #d9a94b 72%, #a97f34 100%)",
+    "label": "match each other",
+    "title": "Match Each Other",
+    "note": "chapter ten",
+    "desc": "Every road on this little map leads back to this — right here, right now.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727937/birthday-wish/dqwg6wmqegqtdsrjydmp.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727942/birthday-wish/top48ylu5oi3m9zhl2yy.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727943/birthday-wish/ek13dttmnbayvrsczogs.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727945/birthday-wish/kntrhca5nfqkchcibp5m.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727947/birthday-wish/i7mbsjsc5rvvjsyijss9.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727949/birthday-wish/bzey3rplutlmqfkoejcr.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727952/birthday-wish/rqvc6wzhz2jdknd5olfz.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727954/birthday-wish/mzs6492qfdzzc5ptyd0d.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727957/birthday-wish/iq99qedrm5cng19abcej.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727959/birthday-wish/n519ubf6eemsf8c17bjj.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727961/birthday-wish/l23cxnze67ufimctdzh7.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727963/birthday-wish/xrahyhbkmn4qlbzzs8ob.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727964/birthday-wish/cgdk03men3p6sbf0fukk.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727965/birthday-wish/yaru41fg1uvmbd7webwz.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727967/birthday-wish/ia88ivbwfbuswkqon6ar.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727969/birthday-wish/iy7ft9avwemzww8tdzmx.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727971/birthday-wish/v4vnnuct9cz1g7yqpbvp.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727973/birthday-wish/vqjlw7gaptoti5n36vbd.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727975/birthday-wish/xqelnhkcsse5zrn9vtmc.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727976/birthday-wish/h7kviosyi7j3lbnhd9yh.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727980/birthday-wish/bmxwoqvjgh0souq63aqv.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727982/birthday-wish/goukevyjpkhhxi9ws1ad.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727984/birthday-wish/fvbk78rkcylrq9cgiay4.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727985/birthday-wish/m783y6f5rkbmflsmghs4.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727987/birthday-wish/oqpppjhbazhghwgahnmw.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727988/birthday-wish/uhmwav8fqg2jk26uhwxi.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727990/birthday-wish/bbmunqzqyjsxlznowy5m.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727991/birthday-wish/xbufvwxkkonkkwhibp4e.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727992/birthday-wish/pok71fc2ufrywcyd9xfe.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727994/birthday-wish/ygwruexsnxlk34zgtjax.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789727996/birthday-wish/dxuvwzc6dfpdmmw3r2eg.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "crystal-orbit",
+    "position": {
+      "x": 22,
+      "y": 84
+    },
+    "size": 92,
+    "bg": "radial-gradient(circle at 32% 28%, #e0e7ff, #6366f1 44%, #3730a3 80%, #1e1b4b 100%)",
+    "ring": true,
+    "label": "photoshoot",
+    "title": "Photoshoot",
+    "note": "chapter eleven",
+    "desc": "Looking out into tomorrow, knowing the best parts of our story are still unfolding.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728857/birthday-wish/jtvzhniow9ptdvehllz6.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728884/birthday-wish/kcxgu5vgvmloshjbfgbv.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728891/birthday-wish/hdiootjbywljzppouzcx.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728901/birthday-wish/jtx5edixnod4ichu8uzb.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728913/birthday-wish/niryxd7bpb92ouimqj7p.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728919/birthday-wish/hmlj5abaovhaladsgcpl.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728924/birthday-wish/alj1mlmeqw0fsboriznh.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728929/birthday-wish/brvdts4cwyxapbyqydoq.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728934/birthday-wish/bcnob62rr3swyuze4lhw.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728940/birthday-wish/ldqecuuujeixwuoevpgm.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728946/birthday-wish/omevdtp2tmmsylor0qei.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728952/birthday-wish/n62rf0uxbwdxriuwaotn.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728958/birthday-wish/o3rpozv3rns1h0kuxo4s.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728964/birthday-wish/ocju8klnxicl4yutmycr.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728971/birthday-wish/js5jb0k7enmnx95djzwq.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728978/birthday-wish/k0xt9f9bmf70bqqfpzr7.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728985/birthday-wish/oz6r3ok7ru7chet8204a.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728992/birthday-wish/nvvs2cldxtkq6jerw9js.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789728998/birthday-wish/tlu0pjo5tveobesn3peo.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789729004/birthday-wish/eur4c7xpxhccveb4j4az.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789729008/birthday-wish/lfhmvonftfcrk5xsr1nl.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789729009/birthday-wish/ahfronmzmxzclxwkziqq.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789729011/birthday-wish/g3advzldkickqatorydn.jpg",
+        "cap": "",
+        "date": ""
+      },
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789729012/birthday-wish/inrqcifrljve4vqems4e.jpg",
+        "cap": "",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "moon",
+    "position": {
+      "x": 75,
+      "y": 92
+    },
+    "size": 130,
+    "bg": "radial-gradient(circle at 32% 28%, #fbf3d8 0%, #f4d488 40%, #d9a94b 72%, #a97f34 100%)",
+    "isMoon": true,
+    "label": "it's all over",
+    "title": "It's All Over",
+    "note": "chapter twelve",
+    "desc": "Every road on this little map leads to this — and to every adventure still waiting to be written.",
+    "photos": [
+      {
+        "img": "https://res.cloudinary.com/oaktnbdl/image/upload/v1789731379/birthday-wish/urubpvsajarzacifz63d.jpg",
+        "cap": "",
+        "date": ""
+      }
     ]
   }
 ];
@@ -506,9 +1283,11 @@ const pathEl = document.getElementById('travel-path');
 
 /* ---- set overall scene height based on number of stops ---- */
 const VH_PER_STOP = 58;
-const CLOSING_VH = 55;
+const CLOSING_VH = 40;
 function sceneHeightPx(){
-  return Math.round(window.innerHeight * ((VH_PER_STOP * journeyData.length + CLOSING_VH) / 100));
+  const isSmall = window.innerWidth <= 768;
+  const vh = isSmall ? 52 : VH_PER_STOP;
+  return Math.round(window.innerHeight * ((vh * journeyData.length + CLOSING_VH) / 100));
 }
 scene.style.height = sceneHeightPx() + 'px';
 
@@ -529,7 +1308,8 @@ function makeStars(count){
   }
   scene.appendChild(frag);
 }
-makeStars(Math.round(280 * journeyData.length / 5));
+const starCount = window.innerWidth <= 768 ? 100 : Math.round(280 * journeyData.length / 5);
+makeStars(starCount);
 
 /* ---- occasional shooting star (fixed to viewport) ---- */
 function launchShootingStar(){
@@ -543,12 +1323,33 @@ function launchShootingStar(){
 setTimeout(launchShootingStar, 4000);
 setInterval(launchShootingStar, 9000);
 
+/* ---- responsive waypoint calculation ---- */
+function getStopPos(stop) {
+  const isSmall = window.innerWidth <= 768;
+  if (!isSmall) {
+    return { x: stop.position.x, y: stop.position.y };
+  }
+  let mx = stop.position.x;
+  if (stop.isStart) {
+    mx = 32;
+  } else if (stop.isMoon) {
+    mx = 68;
+  } else if (stop.position.x < 45) {
+    mx = 26;
+  } else {
+    mx = 74;
+  }
+  return { x: mx, y: stop.position.y };
+}
+
 /* ---- build waypoints ---- */
+const waypointEls = [];
 journeyData.forEach(stop => {
   const wrap = document.createElement('div');
   wrap.className = 'waypoint' + (stop.isMoon ? ' moon-stop' : '');
-  wrap.style.left = stop.position.x + '%';
-  wrap.style.top = stop.position.y + '%';
+  const initialPos = getStopPos(stop);
+  wrap.style.left = initialPos.x + '%';
+  wrap.style.top = initialPos.y + '%';
 
   const btn = document.createElement('button');
   btn.className = 'planet-btn' + (stop.ring ? ' ring' : '');
@@ -569,7 +1370,16 @@ journeyData.forEach(stop => {
   wrap.appendChild(cap);
   wrap.addEventListener('click', () => openAlbum(stop));
   scene.appendChild(wrap);
+  waypointEls.push({ el: wrap, stop: stop });
 });
+
+function updateWaypointPositions() {
+  waypointEls.forEach(({ el, stop }) => {
+    const pos = getStopPos(stop);
+    el.style.left = pos.x + '%';
+    el.style.top = pos.y + '%';
+  });
+}
 
 /* ---- draw a smooth path through the waypoints in real pixel space ---- */
 function catmullRom2bezier(points){
@@ -589,12 +1399,16 @@ function catmullRom2bezier(points){
 }
 
 function drawPath(){
+  updateWaypointPositions();
   const w = scene.offsetWidth;
   const h = scene.offsetHeight;
   svg.setAttribute('width', w);
   svg.setAttribute('height', h);
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-  const pts = journeyData.map(s => ({ x: s.position.x/100*w, y: s.position.y/100*h }));
+  const pts = journeyData.map(s => {
+    const pos = getStopPos(s);
+    return { x: pos.x/100*w, y: pos.y/100*h };
+  });
   pathEl.setAttribute('d', catmullRom2bezier(pts));
   const len = pathEl.getTotalLength();
   pathEl.style.strokeDasharray = '14 12';
@@ -630,16 +1444,20 @@ closingObserver.observe(closingCard);
 
 /* ---- album modal ---- */
 function openAlbum(stop){
-  const tilts = [-4, 3, -2, 5, -3, 2];
-  const photosHtml = stop.photos.map((p, i) => `
-    <div class="polaroid" style="--tilt:${tilts[i % tilts.length]}deg">
+  const tilts = [-3, 2, -2, 3, -2, 2];
+  const photosHtml = (stop.photos && stop.photos.length > 0) ? stop.photos.map((p, i) => `
+    <div class="polaroid" style="--tilt:${tilts[i % tilts.length]}deg" data-img="${p.img || ''}" data-cap="${p.cap || ''}" title="Tap to view on screen">
       <div class="photo" style="${p.img ? `background:url('${p.img}') center/cover;` : 'background:linear-gradient(150deg,#e9e2d0,#d8cdb2);'}">
         ${p.img ? '' : '✦'}
       </div>
       <span class="cap">${p.cap || ''}</span>
       ${p.date ? `<span class="date">${p.date}</span>` : ''}
     </div>
-  `).join('');
+  `).join('') : `
+    <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--gold-soft); font-family: 'Caveat', cursive; font-size: 1.4rem; letter-spacing: 0.05em;">
+      ✦ Moments waiting to be added ✦
+    </div>
+  `;
 
   albumContent.innerHTML = `
     <button class="album-close" aria-label="Close">✕</button>
@@ -650,12 +1468,55 @@ function openAlbum(stop){
   `;
 
   albumContent.querySelector('.album-close').addEventListener('click', closeAlbum);
+
+  // When clicking any image card, open it fullscreen on the screen
+  albumContent.querySelectorAll('.polaroid').forEach(card => {
+    const imgUrl = card.getAttribute('data-img');
+    const capText = card.getAttribute('data-cap');
+    if (imgUrl) {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openImageLightbox(imgUrl, capText);
+      });
+    }
+  });
+
   overlay.classList.add('open');
 }
 function closeAlbum(){ overlay.classList.remove('open'); }
 overlay.addEventListener('click', (e) => { if(e.target === overlay) closeAlbum(); });
-document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeAlbum(); });
+
+/* ---- image lightbox ---- */
+function openImageLightbox(src, cap){
+  if(!src) return;
+  const lb = document.getElementById('imageLightbox');
+  const img = document.getElementById('imageLightboxImg');
+  const capEl = document.getElementById('imageLightboxCap');
+  img.src = src;
+  if(capEl) capEl.textContent = cap || '';
+  lb.classList.add('open');
+}
+function closeImageLightbox(){
+  const lb = document.getElementById('imageLightbox');
+  if(lb) lb.classList.remove('open');
+}
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') {
+    closeImageLightbox();
+    closeAlbum();
+  }
+});
+
 </script>
 
+
+<div id="imageLightbox" class="image-lightbox" onclick="closeImageLightbox()">
+  <div class="image-lightbox-card" onclick="event.stopPropagation()">
+    <img id="imageLightboxImg" src="" alt="Photo Fullscreen">
+    <div id="imageLightboxCap" class="image-lightbox-cap"></div>
+  </div>
+  <button class="image-lightbox-close" onclick="closeImageLightbox()" aria-label="Close Fullscreen">✕</button>
+  <span class="image-lightbox-hint">Tap anywhere to close</span>
+</div>
 </body>
 </html>
